@@ -1,24 +1,49 @@
 {
-  "name": "cordova-plugin-livetex",
-  "version": "0.9.1",
-  "description": "Livetex chat plugin for cordova",
-  "main": "bump-version.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
+  "_from": "git+https://github.com/viphedin/cordova-plugin-livetex.git",
+  "_id": "cordova-plugin-livetex@0.9.1",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cordova-plugin-livetex",
+  "_phantomChildren": {},
+  "_requested": {
     "type": "git",
-    "url": "git+https://github.com/viphedin/cordova-plugin-livetex.git"
+    "raw": "git+https://github.com/viphedin/cordova-plugin-livetex.git",
+    "rawSpec": "git+https://github.com/viphedin/cordova-plugin-livetex.git",
+    "saveSpec": "git+https://github.com/viphedin/cordova-plugin-livetex.git",
+    "fetchSpec": "https://github.com/viphedin/cordova-plugin-livetex.git",
+    "gitCommittish": null
   },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/viphedin/cordova-plugin-livetex.git#ac128c47852366e9f7352b076503d689f4ed762e",
+  "_spec": "git+https://github.com/viphedin/cordova-plugin-livetex.git",
+  "_where": "c:\\www\\evomobile",
+  "author": {
+    "name": "Kostya Bulaev"
+  },
+  "bugs": {
+    "url": "https://github.com/viphedin/cordova-plugin-livetex/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Livetex chat plugin for cordova",
+  "homepage": "https://github.com/viphedin/cordova-plugin-livetex#readme",
   "keywords": [
     "livetex",
     "chat",
     "cordova"
   ],
-  "author": "Kostya Bulaev",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/viphedin/cordova-plugin-livetex/issues"
+  "main": "bump-version.js",
+  "name": "cordova-plugin-livetex",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viphedin/cordova-plugin-livetex.git"
   },
-  "homepage": "https://github.com/viphedin/cordova-plugin-livetex#readme"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.9.1"
 }

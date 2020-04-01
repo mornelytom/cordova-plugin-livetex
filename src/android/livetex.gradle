@@ -1,10 +1,12 @@
-apply plugin: 'com.android.application'
 buildscript {
     repositories {
+        google()
+        mavenCentral()
         jcenter()
     }
     dependencies {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.google.gms:google-services:4.3.3'
     }
 }
 
@@ -70,8 +72,6 @@ dependencies {
 
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.squareup.picasso:picasso:2.5.0'
-    implementation 'ru.livetex:sdk:2.0.0@aar'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.1'
+    implementation (name:'linphone-sdk-android-4.2-120-g054b910', ext:'aar')
 }
-
-apply plugin: 'com.google.gms.google-services'

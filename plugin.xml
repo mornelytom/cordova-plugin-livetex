@@ -18,9 +18,9 @@
 
     <framework src="src/android/livetex.gradle" custom="true" type="gradleReference" />
 
-    <!-- <lib-file src="src/android/libs/linphone-sdk-android-4.2-120-g054b910.aar" /> -->
+    <lib-file src="src/android/libs/livetex-sdk-android-2.0.0.aar" />
 
-    <!-- <source-file src="src/android/src/Linphone.java" target-dir="src/com/sip/linphone" /> -->
+    <source-file src="src/android/src/Livetex.java" target-dir="src/ru/simdev/livetex" />
 
     <!-- drawable src/android/resources -->
     <!-- <resource-file src="src/android/res/drawable/video_overlay.png" target="res/drawable/video_overlay.png" /> -->

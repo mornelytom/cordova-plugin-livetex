@@ -1,13 +1,18 @@
 package ru.simdev.livetex;
 
+import android.content.Context;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
 public class Livetex extends CordovaPlugin {
+    
+    public static Context mContext;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
