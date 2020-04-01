@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin id="cordova-plugin-livetex" version="0.9.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>Livetex</name>
+  <description>A plugin to integrate Livetex chat to cordova</description>
+  <license>MIT</license>
+  <keywords>livetex,cordova,phonegap</keywords>
+
+  <engines>
+    <engine name="cordova-android" version=">=8.0.0-dev" />
+    <engine name="cordova-ios" version=">=4.0.0-dev" />
+  </engines>
+
+  <!-- android -->
+  <platform name="android">
+    <config-file target="config.xml" parent="/*">
+
+    </config-file>
+
+    <framework src="src/android/livetex.gradle" custom="true" type="gradleReference" />
+
+    <!-- <lib-file src="src/android/libs/linphone-sdk-android-4.2-120-g054b910.aar" /> -->
+
+    <!-- <source-file src="src/android/src/Linphone.java" target-dir="src/com/sip/linphone" /> -->
+
+    <!-- drawable src/android/resources -->
+    <!-- <resource-file src="src/android/res/drawable/video_overlay.png" target="res/drawable/video_overlay.png" /> -->
+
+    <js-module src="www/cordova-plugins-livetex.js" name="livetex">
+      <merges target="cordova.plugins.livetex" />
+    </js-module>
+  </platform>
+
+</plugin>
