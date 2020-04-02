@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/llLeft"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/llLeftBaloon"
+            android:paddingLeft="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="4dp"
+            android:background="@drawable/user_baloon_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/ivScreenshot1"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+                android:id="@+id/tvLeft"
+                android:layout_marginRight="2dp"
+                android:text=""
+                android:layout_marginLeft="6dp"
+                android:maxEms="12"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+            android:id="@+id/tvTimerLeft"
+            android:text="12:10"
+            android:layout_marginLeft="4dp"
+            android:layout_gravity="bottom"
+            android:padding="1dp"
+            android:layout_width="42dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llRight"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+            android:layout_gravity="bottom"
+            android:text="12:10"
+            android:padding="1dp"
+            android:layout_marginRight="4dp"
+            android:id="@+id/tvTimerRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/llRightBaloon"
+            android:paddingLeft="4dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="12dp"
+            android:background="@drawable/operator_baloon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/ivScreenshot"
+                android:visibility="gone"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+                android:id="@+id/tvRight"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="6dp"
+                android:text=""
+                android:maxEms="12"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+        android:id="@+id/tvDialogState"
+        android:visibility="gone"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
