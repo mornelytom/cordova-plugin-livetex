@@ -33,14 +33,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    signingConfigs {
-        release {
-            storeFile file("livetex.jks")
-            storePassword "l1vetex"
-            keyAlias "livetex_test_sdk"
-            keyPassword "l1v3t3x"
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -49,6 +41,12 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/LICENSE'
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
     }
 }
 
@@ -73,5 +71,5 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.squareup.picasso:picasso:2.5.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.1'
-    implementation (name:'linphone-sdk-android-4.2-120-g054b910', ext:'aar')
+    implementation (name:'livetex-sdk-android-2.0.0', ext:'aar')
 }
