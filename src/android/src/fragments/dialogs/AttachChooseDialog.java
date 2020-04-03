@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import nit.livetex.cordovalivetex.R;
+import ru.simdev.evo.life.R;
 
 public class AttachChooseDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
@@ -38,18 +38,18 @@ public class AttachChooseDialog extends DialogFragment implements DialogInterfac
         final String[] strings;
         if (isCameraAvailable()) {
             strings = new String[]{
-                    getString(R.livetex_string.take_photo),
-                    getString(R.livetex_string.choose_from_gallery),
-                    getString(R.livetex_string.send_file)
+                    getString(R.string.take_photo),
+                    getString(R.string.choose_from_gallery),
+                    getString(R.string.send_file)
             };
         } else {
             strings = new String[]{
-                    getString(R.livetex_string.choose_from_gallery),
-                    getString(R.livetex_string.send_file)
+                    getString(R.string.choose_from_gallery),
+                    getString(R.string.send_file)
             };
         }
         ListAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.livetex_item_list_dialog, strings);
-        return new AlertDialog.Builder(getActivity()).setTitle(R.livetex_string.choose_file)
+        return new AlertDialog.Builder(getActivity()).setTitle(R.string.choose_file)
                 .setSingleChoiceItems(adapter, 0, this).create();
     }
 

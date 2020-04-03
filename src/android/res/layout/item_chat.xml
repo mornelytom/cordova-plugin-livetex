@@ -19,7 +19,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:paddingRight="4dp"
-            android:background="@drawable/user_baloon_active"
+            android:background="@drawable/livetex_user_baloon_active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
@@ -27,7 +27,7 @@
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+            <ru.simdev.livetex.view.TextViewRobotoRegular
                 android:id="@+id/tvLeft"
                 android:layout_marginRight="2dp"
                 android:text=""
@@ -39,7 +39,7 @@
         </LinearLayout>
 
 
-        <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+        <ru.simdev.livetex.view.TextViewRobotoRegular
             android:id="@+id/tvTimerLeft"
             android:text="12:10"
             android:layout_marginLeft="4dp"
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+        <ru.simdev.livetex.view.TextViewRobotoRegular
             android:layout_gravity="bottom"
             android:text="12:10"
             android:padding="1dp"
@@ -71,7 +71,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:paddingRight="12dp"
-            android:background="@drawable/operator_baloon"
+            android:background="@drawable/livetex_operator_baloon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
@@ -80,7 +80,7 @@
                 android:scaleType="fitXY"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+            <ru.simdev.livetex.view.TextViewRobotoRegular
                 android:id="@+id/tvRight"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="6dp"
@@ -94,7 +94,7 @@
 
     </LinearLayout>
 
-    <nit.livetex.cordovalivetex.view.TextViewRobotoRegular
+    <ru.simdev.livetex.view.TextViewRobotoRegular
         android:id="@+id/tvDialogState"
         android:visibility="gone"
         android:gravity="center_horizontal"

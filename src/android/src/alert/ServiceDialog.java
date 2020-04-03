@@ -24,9 +24,9 @@ public class ServiceDialog extends Activity {
             final String text = intent.getStringExtra("text");
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("Сообщение");
-            alert.setIcon(android.R.drawable.livetex_ic_dialog_info);
+            alert.setIcon(android.R.drawable.ic_dialog_info);
             alert.setMessage(text);
-            alert.setPositiveButton(android.R.livetex_string.ok,
+            alert.setPositiveButton(android.R.string.ok,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

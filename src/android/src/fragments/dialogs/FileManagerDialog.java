@@ -60,8 +60,8 @@ public class FileManagerDialog extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(Environment.getExternalStorageDirectory().getPath())
                 .setView(mMainLayout)
-                .setPositiveButton(android.R.livetex_string.ok, null)
-                .setNegativeButton(android.R.livetex_string.cancel, null)
+                .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create();
     }
 
@@ -97,8 +97,8 @@ public class FileManagerDialog extends DialogFragment {
     }
 
     private TextView createBackItem(final ListView listView) {
-        TextView textView = createTextView(getActivity(), android.R.livetex_style.TextAppearance_Small);
-        Drawable drawable = getResources().getDrawable(android.R.drawable.livetex_ic_menu_directions);
+        TextView textView = createTextView(getActivity(), android.R.style.TextAppearance_Small);
+        Drawable drawable = getResources().getDrawable(android.R.drawable.ic_menu_directions);
         drawable.setBounds(0, 0, 60, 60);
         textView.setCompoundDrawables(drawable, null, null, null);
         textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -160,7 +160,7 @@ public class FileManagerDialog extends DialogFragment {
                 mMainLayout.getChildAt(0).setVisibility(View.VISIBLE);
             }
         } catch (NullPointerException e) {
-            Toast.makeText(getActivity(), android.R.livetex_string.unknownName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), android.R.string.unknownName, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -188,7 +188,7 @@ public class FileManagerDialog extends DialogFragment {
     private static class FileAdapter extends ArrayAdapter<File> {
 
         public FileAdapter(Context context, List<File> files) {
-            super(context, android.R.layout.livetex_simple_list_item_1, files);
+            super(context, android.R.layout.simple_list_item_1, files);
         }
 
         @Override

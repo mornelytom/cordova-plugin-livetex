@@ -68,8 +68,8 @@ public abstract class BaseChatFragment1 extends BaseFragment implements View.OnC
     @Override
     protected View onCreateView(View v) {
         init(v);
-        ivVoteDown.setColorFilter(getResources().getColor(R.livetex_color.new_red));
-        ivVoteUp.setColorFilter(getResources().getColor(R.livetex_color.new_green));
+        ivVoteDown.setColorFilter(getResources().getColor(R.color.new_red));
+        ivVoteUp.setColorFilter(getResources().getColor(R.color.new_green));
         RelativeLayout rlVote = (RelativeLayout) v.findViewById(R.id.rlVote);
         initTextWatcher();
         adapter = new ChatArrayAdapter(getContext());

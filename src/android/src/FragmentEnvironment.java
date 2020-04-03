@@ -36,7 +36,7 @@ public class FragmentEnvironment extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setStatusBarColor(getResources().getColor(android.R.livetex_color.black));
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.black));
         }
         setContentView(R.layout.livetex_activity_main1);
         init();

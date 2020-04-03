@@ -17,16 +17,16 @@
             android:layout_marginTop="38dp"
             android:layout_marginBottom="48dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/new_livetex_logo_white"
+            android:src="@drawable/livetex_new_livetex_logo_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <nit.livetex.cordovalivetex.view.TextViewRoboto
+        <ru.simdev.livetex.view.TextViewRoboto
             style="@style/tv_title_init"
             android:textSize="@dimen/tv_title_size_medium"
             android:text="Приложение для демонстрации"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <nit.livetex.cordovalivetex.view.TextViewRoboto
+        <ru.simdev.livetex.view.TextViewRoboto
             style="@style/tv_title_init"
             android:textSize="@dimen/tv_title_size_medium"
             android:text="возможностей LiveTex Mobile SDK"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-        <nit.livetex.cordovalivetex.view.ButtonBlue
+        <ru.simdev.livetex.view.ButtonBlue
             android:layout_margin="40dp"
             style="@style/btn_blue"
             android:textSize="@dimen/tv_title_size_small"

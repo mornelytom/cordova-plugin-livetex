@@ -42,7 +42,7 @@ public class ChooseModeFragment extends BaseFragment implements ClientFormCallba
         switch (view.getId()) {
             case R.id.btnOnlineMode:
                 if(TextUtils.isEmpty(DataKeeper.getClientName(getContext()))) {
-                    showFragment(new nit.livetex.cordovalivetex.fragments.ClientFormFragment(), true);
+                    showFragment(new ClientFormFragment(), true);
                 } else {
                     showProgress();
                     if(destinations != null && !destinations.isEmpty()) {
@@ -104,7 +104,7 @@ public class ChooseModeFragment extends BaseFragment implements ClientFormCallba
     public void createChat() {
         dismissProgress();
         Bundle bundle = new Bundle();
-        showFragment(new nit.livetex.cordovalivetex.fragments.OnlineChatFragment1(), bundle);
+        showFragment(new OnlineChatFragment1(), bundle);
     }
 
     @Override

@@ -19,7 +19,7 @@
             android:id="@+id/fab"
             android:layout_marginBottom="12dp"
             android:layout_marginRight="12dp"
-            android:src="@drawable/ic_add_white_18pt"
+            android:src="@drawable/livetex_ic_add_white_18pt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right" />

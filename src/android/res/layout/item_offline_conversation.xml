@@ -5,12 +5,12 @@
     android:padding="8dp"
     android:layout_height="84dp">
 
-    <nit.livetex.cordovalivetex.view.RoundedImageView
+    <ru.simdev.livetex.view.RoundedImageView
         android:layout_margin="4dp"
         android:id="@+id/ivAvatar"
         android:layout_gravity="top"
         android:layout_marginRight="4dp"
-        android:src="@drawable/ic_app"
+        android:src="@drawable/livetex_ic_app"
         android:layout_width="48dp"
         android:layout_height="48dp" />
 
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-        <nit.livetex.cordovalivetex.view.TextViewRoboto
+        <ru.simdev.livetex.view.TextViewRoboto
             android:id="@+id/tvOperatorName"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <nit.livetex.cordovalivetex.view.TextViewRoboto
+        <ru.simdev.livetex.view.TextViewRoboto
             android:id="@+id/tvMessage"
             android:textSize="14dp"
             android:layout_marginTop="2dp"
@@ -46,7 +46,7 @@
 
     </LinearLayout>
 
-    <nit.livetex.cordovalivetex.view.TextViewRoboto
+    <ru.simdev.livetex.view.TextViewRoboto
         android:layout_gravity="top"
         android:layout_marginRight="4dp"
         android:id="@+id/tvTime"

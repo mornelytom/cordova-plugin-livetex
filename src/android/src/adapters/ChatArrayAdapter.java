@@ -109,8 +109,8 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.llRightBaloon.getBackground().setColorFilter(getContext().getResources().getColor(R.livetex_color.new_blue), PorterDuff.Mode.SRC_ATOP);
-        holder.llLeftBaloon.getBackground().setColorFilter(getContext().getResources().getColor(R.livetex_color.white), PorterDuff.Mode.SRC_ATOP);
+        holder.llRightBaloon.getBackground().setColorFilter(getContext().getResources().getColor(R.color.new_blue), PorterDuff.Mode.SRC_ATOP);
+        holder.llLeftBaloon.getBackground().setColorFilter(getContext().getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         holder.tvMessageLeft.setTextColor(Color.BLACK);
         holder.tvMessageRight.setTextColor(Color.WHITE);
 

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@color/new_ultra_light_gray">
-        <nit.livetex.cordovalivetex.view.TextViewRoboto
+        <ru.simdev.livetex.view.TextViewRoboto
             style="@style/tv_title_init"
             android:id="@+id/status_tv"
             android:layout_width="wrap_content"
@@ -29,8 +29,8 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/vote_div"
             android:contentDescription="@string/vote"
-            android:background="@drawable/default_icon"
-            android:src="@drawable/ic_thumb_up_black_24dp" />
+            android:background="@drawable/livetex_default_icon"
+            android:src="@drawable/livetex_ic_thumb_up_black_24dp" />
 
         <View
             android:id="@+id/vote_div"
@@ -49,8 +49,8 @@
             android:scaleType="center"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_thumb_down_black_24dp"
-            android:background="@drawable/default_icon"
+            android:src="@drawable/livetex_ic_thumb_down_black_24dp"
+            android:background="@drawable/livetex_default_icon"
             android:contentDescription="@string/vote" />
 
     </RelativeLayout>
@@ -113,8 +113,8 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:scaleType="center"
-            android:src="@drawable/send_msg1"
-            android:background="@drawable/default_icon"  />
+            android:src="@drawable/livetex_send_msg1"
+            android:background="@drawable/livetex_default_icon"  />
     </RelativeLayout>
 
 </RelativeLayout>

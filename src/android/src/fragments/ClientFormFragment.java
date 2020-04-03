@@ -90,14 +90,14 @@ public class ClientFormFragment extends BaseFragment implements ClientFormCallba
     public void createChat(String conversationId, String avatar, String firstName) {
         dismissProgress();
         Bundle bundle = new Bundle();
-        showFragment(new nit.livetex.cordovalivetex.fragments.OnlineChatFragment1(), bundle);
+        showFragment(new OnlineChatFragment1(), bundle);
         CommonUtils.clear(etWelcomeName);
     }
 
     @Override
     public void createChat() {
         dismissProgress();
-        showFragment(new nit.livetex.cordovalivetex.fragments.OnlineChatFragment1());
+        showFragment(new OnlineChatFragment1());
         CommonUtils.clear(etWelcomeName);
     }
 

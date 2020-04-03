@@ -16,10 +16,10 @@
         android:layout_height="wrap_content">
         <ImageView
             android:layout_marginRight="4dp"
-            android:src="@drawable/ic_app"
+            android:src="@drawable/livetex_ic_app"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <nit.livetex.cordovalivetex.view.TextViewRoboto
+        <ru.simdev.livetex.view.TextViewRoboto
             android:text="LIVETEX"
             android:textSize="24sp"
             android:layout_width="wrap_content"

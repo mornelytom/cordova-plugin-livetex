@@ -121,7 +121,6 @@ public class CommonUtils {
         return MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     }
     public static Uri getRealPathFromURI(Context context, Uri contentUri) {
-       // Context context = MainApplication.getInstance();
         if (isKitKat()) {
             // get the id of the image selected by the user
             try {

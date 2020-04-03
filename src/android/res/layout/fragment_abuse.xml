@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <nit.livetex.cordovalivetex.view.CustomEditText
+        <ru.simdev.livetex.view.CustomEditText
 
             android:id="@+id/etAbusePhone"
             android:hint="Имя"
@@ -22,7 +22,7 @@
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-        <nit.livetex.cordovalivetex.view.CustomEditText
+        <ru.simdev.livetex.view.CustomEditText
 
             android:id="@+id/etEmail"
             android:hint="Email"
@@ -34,7 +34,7 @@
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-        <nit.livetex.cordovalivetex.view.CustomEditText
+        <ru.simdev.livetex.view.CustomEditText
             android:id="@+id/etAbuseMessage"
             android:hint="Введите сообщение"
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
 
 
 
-    <nit.livetex.cordovalivetex.view.ButtonBlue
+    <ru.simdev.livetex.view.ButtonBlue
         android:layout_marginTop="32dp"
         style="@style/btn_blue"
         android:layout_marginRight="4dp"

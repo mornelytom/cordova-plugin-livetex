@@ -18,7 +18,7 @@ import android.widget.Toast;
 import livetex.queue_service.Destination;
 import ru.simdev.livetex.Const;
 import ru.simdev.livetex.FragmentEnvironment;
-import ru.simdev.livetex.MainApplication;
+import ru.simdev.livetex.LivetexContext;
 import ru.simdev.evo.life.R;
 import ru.simdev.livetex.fragments.dialogs.AttachChooseDialog;
 import ru.simdev.livetex.fragments.dialogs.FileManagerDialog;
@@ -102,7 +102,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
 
     private void updateMessageHistory(int count, int offset, final boolean scrollDown) {
         pbHistory.setVisibility(View.VISIBLE);
-        MainApplication.getQueueHistory(offset, count, new AHandler<LTSerializableHolder>() {
+        LivetexContext.getQueueHistory(offset, count, new AHandler<LTSerializableHolder>() {
                     @Override
                     public void onError(String errMsg) {
                         pbHistory.setVisibility(View.GONE);
@@ -157,7 +157,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
 
         DataKeeper.resetUnreadMessagesCount(getContext());
 
-        MainApplication.getQueueHistory(0, 10, new AHandler<LTSerializableHolder>() {
+        LivetexContext.getQueueHistory(0, 10, new AHandler<LTSerializableHolder>() {
             @Override
             public void onError(String errMsg) {
 
@@ -181,7 +181,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
 
         @Override
         public void run() {
-            MainApplication.getStateQueue(new AHandler<livetex.queue_service.DialogState>() {
+            LivetexContext.getStateQueue(new AHandler<livetex.queue_service.DialogState>() {
                 @Override
                 public void onError(String errMsg) {
 
@@ -247,7 +247,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                 break;
             case RECEIVE_QUEUE_MSG:
                 LTTextMessage textMessage = (LTTextMessage) eventMessage.getSerializable();
-                MainApplication.confirmQueueMessage(textMessage.getId());
+                LivetexContext.confirmQueueMessage(textMessage.getId());
                 if(!lastMessageId.equals(textMessage.getId())) {
                     scrollWithMessage(false, textMessage.getText(), String.valueOf(System.currentTimeMillis()));
                 }
@@ -354,7 +354,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                         @Override
                         public void run() {
 
-                            MainApplication.sendFileQueue(url, null);
+                            LivetexContext.sendFileQueue(url, null);
                             scrollWithFile(true, url, String.valueOf(System.currentTimeMillis()));
                             dismissProgress();
                         }
@@ -391,7 +391,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
             }
         }, 200);
 
-        MainApplication.sendTextMessage(message, new AHandler<SendMessageResponse>() {
+        LivetexContext.sendTextMessage(message, new AHandler<SendMessageResponse>() {
             @Override
             public void onError(String errMsg) {
                 Log.d("tag", errMsg);
@@ -402,7 +402,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                 Log.d("tag", result.toString());
 
                 if(result.destination == null) {
-                    MainApplication.getDestinations(new AHandler<ArrayList<Destination>>() {
+                    LivetexContext.getDestinations(new AHandler<ArrayList<Destination>>() {
                         @Override
                         public void onError(String errMsg) {
                         }
@@ -412,8 +412,8 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                             if(destinations != null && destinations.size() != 0) {
                                 Destination destination = destinations.get(0);
                                 if(destination != null) {
-                                    MainApplication.setDestination(destination, new LTDialogAttributes(new HashMap<String, String>()));
-                                    MainApplication.currentConversation = destination.getTouchPoint().getTouchPointId();
+                                    LivetexContext.setDestination(destination, new LTDialogAttributes(new HashMap<String, String>()));
+                                    LivetexContext.currentConversation = destination.getTouchPoint().getTouchPointId();
                                 }
                             } else {
                                 CommonUtils.showToast(getContext(), "Нет доступных операторов");
