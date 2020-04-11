@@ -1,28 +1,49 @@
 package ru.simdev.livetex.fragments;
 
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import livetex.queue_service.Destination;
 import ru.simdev.evo.life.R;
-import ru.simdev.livetex.fragments.callbacks.InitCallback;
+import ru.simdev.livetex.LivetexContext;
+import ru.simdev.livetex.fragments.callbacks.ClientFormCallback;
+import ru.simdev.livetex.fragments.presenters.ClientFormPresenter;
 import ru.simdev.livetex.fragments.presenters.InitPresenter;
-import ru.simdev.livetex.models.BaseMessage;
-import ru.simdev.livetex.models.ErrorMessage1;
-import ru.simdev.livetex.models.EventMessage;
-import ru.simdev.livetex.utils.CommonUtils;
-import com.squareup.otto.Subscribe;
+import ru.simdev.livetex.utils.DataKeeper;
+import sdk.handler.AHandler;
+import sdk.models.LTDepartment;
+import sdk.models.LTEmployee;
 
 /**
  * Created by user on 28.07.15.
  */
-public class InitFragment extends BaseFragment implements InitCallback {
+public class InitFragment extends BaseFragment implements ClientFormCallback {
 
     private InitPresenter presenter;
 
     @Override
     protected View onCreateView(View v) {
         showProgress();
-        presenter = new InitPresenter(this);
-        presenter.init("161872");
+
+        LivetexContext.getDestinations(new AHandler<ArrayList<Destination>>() {
+            @Override
+            public void onError(String errMsg) {
+                Log.e("Livetext", "error " + errMsg);
+            }
+
+            @Override
+            public void onResultRecieved(ArrayList<Destination> destinations) {
+                if (destinations != null && !destinations.isEmpty()) {
+                    Destination destination = destinations.get(0);
+                    ClientFormPresenter.sendToDestination(getContext(), destination, DataKeeper.getClientName(getContext()), InitFragment.this);
+                }
+            }
+        });
+
         return super.onCreateView(v);
     }
 
@@ -31,30 +52,42 @@ public class InitFragment extends BaseFragment implements InitCallback {
         return R.layout.livetex_fragment_init;
     }
 
-    @Subscribe
-    public void onEventMessage(EventMessage eventMessage) {
-        if(eventMessage.getMessageType() == BaseMessage.TYPE.INIT) {
-            onInitComplete(eventMessage.getStringExtra());
-        }
-    }
+    @Override
+    public void onEmployeesReceived(List<LTEmployee> operators) {
 
-    public void onErrorMessage(ErrorMessage1 errorMessage1) {
-        if(errorMessage1.getMessageType() == BaseMessage.TYPE.INIT) {
-
-        }
     }
 
     @Override
-    public void onInitComplete(String token) {
+    public void onDepartmentsReceived(List<LTDepartment> departments) {
+
+    }
+
+    @Override
+    public void onDestinationsReceived(List<Destination> destinations) {
+
+    }
+
+    @Override
+    public void createChat(String conversationId, String avatar, String firstName) {
+
+    }
+
+    @Override
+    public void createChat() {
         dismissProgress();
-        showFragment(new ChooseModeFragment());
+        Bundle bundle = new Bundle();
+        showFragment(new OnlineChatFragment1(), bundle);
     }
 
     @Override
-    public void onClear() {
-        CommonUtils.showToast(getContext(), "Cache is clear");
+    public void onEmployeesEmpty() {
+
     }
 
+    @Override
+    public void onDepartmentsEmpty() {
+
+    }
 
 }
 

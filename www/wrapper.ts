@@ -12,14 +12,8 @@ import { Plugin, IonicNativePlugin, Cordova } from '@ionic-native/core';
 export class Livetex extends IonicNativePlugin {
 
     @Cordova()
-    login(username: string, password: string, domain: string): Promise<any> { return; }
+    init(): Promise<any> { return; }
 
     @Cordova()
-    call(address: string, displayName: string): Promise<any> { return; }
-
-    @Cordova()
-    hangup(): Promise<any> { return; }
-
-    @Cordova()
-    listenCall(): Promise<any> { return; }
+    open(): Promise<any> { return; }
 }

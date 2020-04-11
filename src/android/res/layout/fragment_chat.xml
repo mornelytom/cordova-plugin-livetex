@@ -9,7 +9,7 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="@color/new_ultra_light_gray">
+        android:background="@color/new_light_gray">
         <ru.simdev.livetex.view.TextViewRoboto
             style="@style/tv_title_init"
             android:id="@+id/status_tv"
@@ -85,35 +85,46 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/msg_ll"
-        android:background="@color/material_grey_500" />
+        android:background="@color/new_light_gray_border" />
 
     <RelativeLayout
         android:id="@+id/msg_ll"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white">
+        android:background="@color/new_light_gray">
 
         <EditText
             android:id="@+id/etInputMsg"
-            android:background="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/ivSendMsg"
-            android:layout_marginLeft="16dp"
             android:layout_marginBottom="8dp"
-            android:hint="@string/enter_msg"/>
+            android:layout_toStartOf="@+id/ivSendMsg"
+            android:layout_toEndOf="@+id/ivSendFile"
+            android:background="@android:color/transparent"
+            android:hint="@string/enter_msg" />
+
+        <ImageView
+            android:id="@+id/ivSendFile"
+            android:clickable="true"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="2dp"
+            android:scaleType="center"
+            android:src="@drawable/paperclip"
+            android:background="@drawable/livetex_default_icon" />
 
         <ImageView
             android:id="@+id/ivSendMsg"
             android:layout_width="68dp"
             android:layout_height="68dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:scaleType="center"
-            android:src="@drawable/livetex_send_msg1"
+            android:src="@drawable/send_button"
             android:background="@drawable/livetex_default_icon"  />
     </RelativeLayout>
 

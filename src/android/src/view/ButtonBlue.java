@@ -1,7 +1,6 @@
 package ru.simdev.livetex.view;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -22,7 +21,7 @@ public class ButtonBlue extends AppCompatButton {
     }
 
     private void init(Context context) {
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Medium.ttf");
-        setTypeface(myTypeface);
+//        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Medium.ttf");
+//        setTypeface(myTypeface);
     }
 }

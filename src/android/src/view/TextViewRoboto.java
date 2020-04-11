@@ -2,7 +2,6 @@ package ru.simdev.livetex.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
-
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -21,7 +20,7 @@ public class TextViewRoboto extends AppCompatTextView {
     }
 
     private void init(Context context) {
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Medium.ttf");
+        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "www/assets/fonts/FuturaNew/FuturaNewBook-Reg.ttf");
         setTypeface(myTypeface);
     }
 }

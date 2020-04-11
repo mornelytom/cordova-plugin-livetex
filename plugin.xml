@@ -13,12 +13,13 @@
   <!-- android -->
   <platform name="android">
     <config-file target="config.xml" parent="/*">
-
+      <feature name="Livetex">
+        <param name="android-package" value="ru.simdev.livetex.Livetex" />
+      </feature>
     </config-file>
-
     <framework src="src/android/livetex.gradle" custom="true" type="gradleReference" />
 
-    <lib-file src="src/android/libs/livetex-sdk-android-2.0.0.aar" />
+    <lib-file src="src/android/libs/livetex-sdk-android-2.0.8.aar" />
 
     <source-file src="src/android/src/Livetex.java" target-dir="src/ru/simdev/livetex" />
     <source-file src="src/android/src/Const.java" target-dir="src/ru/simdev/livetex" />
@@ -31,8 +32,6 @@
     <source-file src="src/android/src/fragments/AbuseFragment.java" target-dir="src/ru/simdev/livetex/fragments" />
     <source-file src="src/android/src/fragments/BaseChatFragment1.java" target-dir="src/ru/simdev/livetex/fragments" />
     <source-file src="src/android/src/fragments/BaseFragment.java" target-dir="src/ru/simdev/livetex/fragments" />
-    <source-file src="src/android/src/fragments/ChooseModeFragment.java" target-dir="src/ru/simdev/livetex/fragments" />
-    <source-file src="src/android/src/fragments/ClientFormFragment.java" target-dir="src/ru/simdev/livetex/fragments" />
     <source-file src="src/android/src/fragments/InitFragment.java" target-dir="src/ru/simdev/livetex/fragments" />
     <source-file src="src/android/src/fragments/OnlineChatFragment1.java" target-dir="src/ru/simdev/livetex/fragments" />
     <source-file src="src/android/src/fragments/callbacks/BaseCallback.java" target-dir="src/ru/simdev/livetex/fragments/callbacks" />
@@ -58,6 +57,7 @@
     <source-file src="src/android/src/utils/MyDiscCache.java" target-dir="src/ru/simdev/livetex/utils" />
     <source-file src="src/android/src/utils/UserData.java" target-dir="src/ru/simdev/livetex/utils" />
     <source-file src="src/android/src/utils/UtilsTokens.java" target-dir="src/ru/simdev/livetex/utils" />
+    <source-file src="src/android/src/utils/ThreadUtils.java" target-dir="src/ru/simdev/livetex/utils" />
     <source-file src="src/android/src/view/ButtonBlue.java" target-dir="src/ru/simdev/livetex/view" />
     <source-file src="src/android/src/view/CustomEditText.java" target-dir="src/ru/simdev/livetex/view" />
     <source-file src="src/android/src/view/CustomSpinner.java" target-dir="src/ru/simdev/livetex/view" />
@@ -66,6 +66,10 @@
     <source-file src="src/android/src/view/TextViewRobotoRegular.java" target-dir="src/ru/simdev/livetex/view" />
 
     <!-- drawable src/android/resources -->
+    <resource-file src="src/android/res/drawable/back.xml" target="res/drawable/back.xml" />
+    <resource-file src="src/android/res/drawable/send_button.xml" target="res/drawable/send_button.xml" />
+    <resource-file src="src/android/res/drawable/paperclip.xml" target="res/drawable/paperclip.xml" />
+    <resource-file src="src/android/res/drawable/chat.xml" target="res/drawable/chat.xml" />
     <resource-file src="src/android/res/drawable/blue_btn.xml" target="res/drawable/livetex_blue_btn.xml" />
     <resource-file src="src/android/res/drawable/border.xml" target="res/drawable/livetex_border.xml" />
     <resource-file src="src/android/res/drawable/default_icon.xml" target="res/drawable/livetex_default_icon.xml" />
@@ -195,12 +199,65 @@
     <resource-file src="src/android/res/layout/spinner_view.xml" target="res/layout/livetex_spinner_view.xml" />
     <resource-file src="src/android/res/menu/menu_main.xml" target="res/menu/livetex_menu_main.xml" />
     <resource-file src="src/android/res/menu/menu_offline_list.xml" target="res/menu/livetex_menu_offline_list.xml" />
-    <resource-file src="src/android/res/values/colors.xml" target="res/values/livetex_colors.xml" />
-    <resource-file src="src/android/res/values/dimens.xml" target="res/values/livetex_dimens.xml" />
-    <resource-file src="src/android/res/values/strings.xml" target="res/values/livetex_strings.xml" />
-    <resource-file src="src/android/res/values/styles.xml" target="res/values/livetex_styles.xml" />
-    <resource-file src="src/android/res/values-v21/styles.xml" target="res/values-v21/livetex_styles.xml" />
-    <resource-file src="src/android/res/values-w820dp/dimens.xml" target="res/values-w820dp/livetex_dimens.xml" />
+    <resource-file src="src/android/res/values/colors.xml" target="res/values/colors.xml" />
+    <resource-file src="src/android/res/values/dimens.xml" target="res/values/dimens.xml" />
+    <!-- <resource-file src="src/android/res/values/strings.xml" target="res/values/livetex_strings.xml" /> -->
+    <resource-file src="src/android/res/values/styles.xml" target="res/values/styles.xml" />
+    
+    <config-file target="res/values/strings.xml" parent="/*">
+        <string name="action_settings">Settings</string>
+
+        <string name="init">инициалиация</string>
+        <string name="title_activity_chat">ChatActivity</string>
+        <string name="privetstvie">Мы рады приветствовать вас на нашем сайте! У нас все хорошо.</string>
+        <string name="your_name">Ваше имя</string>
+        <string name="your_age">Укажите возраст</string>
+        <string name="your_msg">Напишите сообщение</string>
+        <string name="title_activity_welcome">WelcomeActivity</string>
+        <string name="title_activity_init">InitActivity</string>
+        <string name="title_activity_claim">ClaimActivity</string>
+        <string name="input_msg">Введите сообщение</string>
+        <string name="input_phone_number">Введите номер телефона</string>
+        <string name="claim">Жалоба</string>
+        <string name="close">Закрыть</string>
+        <string name="alena_ivanova">Алена Иванова</string>
+        <string name="vote">ОЦЕНИТЕ КОНСУЛЬТАЦИЮ</string>
+        <string name="enter_the_code">Введите код</string>
+        <string name="next">Далее</string>
+        <string name="clear">Очистить кэш</string>
+        <string name="enter_msg">Сообщение</string>
+        <string name="offline_mode">Offline Mode</string>
+        <string name="send_offline_msg">ОТПРАВИТЬ</string>
+        <string name="menu_add">Add</string>
+        <string name="online_mode">Online Mode</string>
+        <string name="create_online_dialog">ОТПРАВИТЬ</string>
+
+        <string name="take_photo">Получить снимок</string>
+        <string name="choose_from_gallery">Выбрать из галереи</string>
+        <string name="send_file">Отправить файл</string>
+        <string name="loading_file">Передача файла</string>
+        <string name="choose_file">Выберите файл</string>
+
+        <string name="permission_camera_rationale">Camera permission is needed to use camera flashlight.</string>
+        <string name="permission_camera_denied">Camera permission was denied. Please consider granting it in order to access the flashlight!</string>
+        <string name="button_allow">Allow</string>
+        <string name="button_deny">Deny</string>
+    </config-file>
+    
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <activity android:allowBackup="true" android:label="@string/app_name" android:name="ru.simdev.livetex.FragmentEnvironment" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize|stateHidden" />
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        <service android:exported="false" android:name="sdk.requests.ClientRequestService">
+        </service>
+        <service android:enabled="true" android:exported="false" android:name="sdk.service.NotificationVisitorService">
+        </service>
+        <service android:name="ru.simdev.livetex.services.DownloadService" />
+        <service android:exported="false" android:name="ru.simdev.livetex.firebase.FirebaseMessageReceiver">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </config-file>
 
     <js-module src="www/cordova-plugins-livetex.js" name="livetex">
       <merges target="cordova.plugins.livetex" />

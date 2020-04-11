@@ -21,7 +21,7 @@ public class TextViewRobotoRegular extends AppCompatTextView {
     }
 
     private void init(Context context) {
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
+        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "www/assets/fonts/Montserrat/Montserrat-Regular.ttf");
         setTypeface(myTypeface);
     }
 }

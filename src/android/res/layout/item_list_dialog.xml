@@ -7,5 +7,4 @@
     android:gravity="center_vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:minHeight="56dp"
-    />
+    android:minHeight="56dp" />

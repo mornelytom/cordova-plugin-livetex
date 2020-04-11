@@ -29,7 +29,7 @@ public class CustomEditText extends AppCompatEditText {
     }
 
     private void init(Context context) {
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Medium.ttf");
+        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "www/assets/fonts/FuturaNew/FuturaNewBook-Reg.ttf");
         setTypeface(myTypeface);
         getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
         setOnFocusChangeListener(new OnFocusChangeListener() {

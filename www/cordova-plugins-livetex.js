@@ -1,12 +1,12 @@
 module.exports =
 {
-    open: function (successCallback, errorCallback) {
+    open: function (name, successCallback, errorCallback) {
         cordova.exec(
             successCallback,
             errorCallback,
             "Livetex",
             "open",
-            []
+            [name]
         );
     },
 

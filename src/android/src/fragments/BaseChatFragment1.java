@@ -133,7 +133,7 @@ public abstract class BaseChatFragment1 extends BaseFragment implements View.OnC
 
     @Override
     public void onDestroyView() {
-        getFragmentEnvironment().getSupportActionBar().setDisplayShowCustomEnabled(false);
+        getFragmentEnvironment().getActionBar().setDisplayShowCustomEnabled(false);
         super.onDestroyView();
 
     }

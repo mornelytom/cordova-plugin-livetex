@@ -1,6 +1,8 @@
 package ru.simdev.livetex.fragments.presenters;
 
+import android.content.Context;
 import android.util.Log;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -13,45 +15,51 @@ import com.google.firebase.iid.InstanceIdResult;
 import java.util.UUID;
 
 import ru.simdev.livetex.LivetexContext;
-import ru.simdev.livetex.fragments.callbacks.InitCallback;
 import ru.simdev.livetex.utils.DataKeeper;
 
 
 /**
  * Created by user on 28.07.15.
  */
-public class InitPresenter extends BasePresenter<InitCallback> {
+public class InitPresenter {
 
-    public InitPresenter(InitCallback callback) {
-        super(callback);
+    public InitPresenter() {
+
     }
 
-    public void init(final String id) {
+    public void init(Context context, final String id) {
+        Log.w("Livetex", "run FirebaseInstanceId");
+        String savedRegId = DataKeeper.restoreRegId(context);
+        if (!TextUtils.isEmpty(savedRegId)) {
+            Log.v("Firebase", "Init with previous regId = " + savedRegId);
+            LivetexContext.initLivetex(id, savedRegId);
+            return;
+        }
+
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.w("fblog", "getInstanceId failed", task.getException());
+                            Log.w("Livetex", "getInstanceId failed", task.getException());
                             return;
                         }
+
                         String token = task.getResult().getToken();
-                        DataKeeper.saveRegId(getContext(), token);
-                        DataKeeper.saveAppId(getContext(), id);
+                        DataKeeper.saveRegId(context, token);
+                        DataKeeper.saveAppId(context, id);
                         LivetexContext.initLivetex(id, token);
-                        Log.d("fblog", token);
+                        Log.w("Livetex", "Token: " + token);
                     }
                 })
                 // Только для демо приложения т.к. google-service.json не содержит риальные данные
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("fblog", "firebase auth failed");
                         String token = UUID.randomUUID().toString();
-                        DataKeeper.saveRegId(getContext(), token);
-                        DataKeeper.saveAppId(getContext(), id);
+                        DataKeeper.saveRegId(context, token);
+                        DataKeeper.saveAppId(context, id);
                         LivetexContext.initLivetex(id, token);
-                        Log.d("fblog", token);
                     }
                 });
     }

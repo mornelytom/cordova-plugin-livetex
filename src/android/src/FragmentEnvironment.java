@@ -1,29 +1,30 @@
 package ru.simdev.livetex;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
-import ru.simdev.livetex.fragments.ClientFormFragment;
+import ru.simdev.evo.life.R;
 import ru.simdev.livetex.fragments.InitFragment;
 import ru.simdev.livetex.fragments.OnlineChatFragment1;
 import ru.simdev.livetex.utils.BusProvider;
 import ru.simdev.livetex.utils.DataKeeper;
-import ru.simdev.evo.life.R;
 import sdk.handler.AHandler;
 
-public class FragmentEnvironment extends AppCompatActivity {
+public class FragmentEnvironment extends FragmentActivity {
 
-    public static AppCompatActivity fa;
+    public static Activity fa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fa = this;
+
         if (!isTaskRoot()
                 && getIntent().hasCategory(Intent.CATEGORY_LAUNCHER)
                 && getIntent().getAction() != null
@@ -35,9 +36,11 @@ public class FragmentEnvironment extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(getResources().getColor(android.R.color.black));
         }
+
         setContentView(R.layout.livetex_activity_main1);
         init();
 
@@ -80,7 +83,7 @@ public class FragmentEnvironment extends AppCompatActivity {
         super.onResume();
         LivetexContext.IS_ACTIVE = true;
         if (LivetexContext.getsLiveTex() != null && !TextUtils.isEmpty(sdk.data.DataKeeper.restoreToken(this))) {
-            LivetexContext.getsLiveTex().bindService();
+            //LivetexContext.getsLiveTex().bindService();
         }
     }
 
@@ -88,20 +91,19 @@ public class FragmentEnvironment extends AppCompatActivity {
     public void onBackPressed() {
         LivetexContext.IS_ACTIVE = false;
         if (LivetexContext.getsLiveTex() != null) {
-            LivetexContext.getsLiveTex().destroy();
+            //LivetexContext.getsLiveTex().destroy();
         }
 
         BusProvider.unregister(this);
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             String currentFragment = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
-            if (currentFragment != null && (currentFragment.equals(OnlineChatFragment1.class.getName()) || currentFragment.equals(ClientFormFragment.class.getName()))) {
+            if (currentFragment != null && currentFragment.equals(OnlineChatFragment1.class.getName())) {
                 finish();
                 return;
             }
         }
 
         super.onBackPressed();
-
     }
 
     @Override
@@ -114,8 +116,9 @@ public class FragmentEnvironment extends AppCompatActivity {
         LivetexContext.IS_ACTIVE = false;
 
         if (LivetexContext.getsLiveTex() != null) {
-            LivetexContext.getsLiveTex().destroy();
+            //LivetexContext.getsLiveTex().destroy();
         }
+
         super.onStop();
     }
 }

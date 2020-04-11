@@ -2,6 +2,7 @@ package ru.simdev.livetex.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -11,10 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import ru.simdev.livetex.FragmentEnvironment;
 import ru.simdev.evo.life.R;
+import ru.simdev.livetex.FragmentEnvironment;
 import ru.simdev.livetex.utils.BusProvider;
 
 /**
@@ -105,10 +107,10 @@ public abstract class BaseFragment extends Fragment {
         View view = inflater.inflate(getLayoutId(), container, false);
 
         if(!onActionBarVisible()) {
-            getFragmentEnvironment().getSupportActionBar().hide();
+            getFragmentEnvironment().getActionBar().hide();
         } else {
             setHasOptionsMenu(true);
-            getFragmentEnvironment().getSupportActionBar().show();
+            getFragmentEnvironment().getActionBar().show();
             addActionBar();
         }
         return onCreateView(view);
@@ -161,11 +163,13 @@ public abstract class BaseFragment extends Fragment {
         {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
-        getFragmentEnvironment().getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getFragmentEnvironment().getSupportActionBar().setTitle("");
+        getFragmentEnvironment().getActionBar().setDisplayShowCustomEnabled(true);
+
+        ColorDrawable colorDrawable = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.main));
+        getFragmentEnvironment().getActionBar().setBackgroundDrawable(colorDrawable);
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        getFragmentEnvironment().getSupportActionBar().setCustomView(getCustomActionBarView(inflater, actionBarHeight));
+        getFragmentEnvironment().getActionBar().setCustomView(getCustomActionBarView(inflater, actionBarHeight));
     }
 
     public View getCustomActionBarView(LayoutInflater inflater, int actionBarHeight){

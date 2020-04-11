@@ -5,7 +5,7 @@ package ru.simdev.livetex;
  */
 public class Const {
 
-    private static String URL_TEST = "http://authentication-service.livetex.omnitest:80/";
+    public static final String APP_ID = "163721";
     public static String PUSH_ONLINE_ACTION = "ru.simdev.livetex.PUSH_ONLINE_ACTION";
 
 
