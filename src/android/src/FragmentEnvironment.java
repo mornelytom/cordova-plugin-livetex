@@ -83,7 +83,7 @@ public class FragmentEnvironment extends FragmentActivity {
         super.onResume();
         LivetexContext.IS_ACTIVE = true;
         if (LivetexContext.getsLiveTex() != null && !TextUtils.isEmpty(sdk.data.DataKeeper.restoreToken(this))) {
-            //LivetexContext.getsLiveTex().bindService();
+            LivetexContext.getsLiveTex().bindService();
         }
     }
 

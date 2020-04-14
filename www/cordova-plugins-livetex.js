@@ -19,4 +19,24 @@ module.exports =
             []
         );
     },
+
+    destroy: function (successCallback, errorCallback) {
+        cordova.exec(
+            successCallback,
+            errorCallback,
+            "Livetex",
+            "destroy",
+            []
+        );
+    },
+
+    callback: function (successCallback, errorCallback) {
+        cordova.exec(
+            successCallback,
+            errorCallback,
+            "Livetex",
+            "callback",
+            []
+        );
+    },
 };

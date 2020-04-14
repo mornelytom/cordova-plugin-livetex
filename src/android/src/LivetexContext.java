@@ -11,6 +11,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.PluginResult;
 import org.apache.thrift.TException;
 
 import java.io.File;
@@ -51,6 +53,8 @@ public class LivetexContext {
     private static LivetexContext sInstance = null;
 
     private static Boolean inited = false;
+
+    private static CallbackContext callback = null;
 
     private Context mContext;
 
@@ -251,6 +255,15 @@ public class LivetexContext {
                     BusProvider.getInstance().post(message);
                 }
             });
+
+            Log.d(TAG, "message: " + message.getMessageType());
+
+            switch (message.getMessageType()) {
+                case RECEIVE_QUEUE_MSG:
+                case RECEIVE_FILE:
+                    sendCallback("receive");
+                    break;
+            }
         }
     }
 
@@ -341,6 +354,28 @@ public class LivetexContext {
                 }
             }
         );
+    }
+
+    static public void setCallback(CallbackContext callback) {
+        Log.d(TAG, "Set callback");
+        LivetexContext.callback = callback;
+    }
+
+    static public void sendCallback(String answer) {
+        Log.d(TAG, "Callback answer " + answer);
+        if (callback != null) {
+            callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, answer));
+        }
+    }
+
+    static public void destroyLivetex() {
+        if (sLiveTex != null) {
+            sLiveTex.destroy();
+        }
+
+        if (sInstance != null) {
+            sInstance.destroy();
+        }
     }
 
     public void destroy() {

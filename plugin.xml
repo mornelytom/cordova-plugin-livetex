@@ -29,6 +29,7 @@
     <source-file src="src/android/src/adapters/DepartmentsAdapter.java" target-dir="src/ru/simdev/livetex/adapters" />
     <source-file src="src/android/src/adapters/DestinationsAdapter.java" target-dir="src/ru/simdev/livetex/adapters" />
     <source-file src="src/android/src/alert/ServiceDialog.java" target-dir="src/ru/simdev/livetex/alert" />
+    <source-file src="src/android/src/firebase/FirebaseMessageReceiver.java" target-dir="src/ru/simdev/livetex/firebase" />
     <source-file src="src/android/src/fragments/AbuseFragment.java" target-dir="src/ru/simdev/livetex/fragments" />
     <source-file src="src/android/src/fragments/BaseChatFragment1.java" target-dir="src/ru/simdev/livetex/fragments" />
     <source-file src="src/android/src/fragments/BaseFragment.java" target-dir="src/ru/simdev/livetex/fragments" />

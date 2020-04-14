@@ -1,24 +1,20 @@
 package ru.simdev.livetex.fragments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.otto.Subscribe;
 
 import org.json.JSONException;
@@ -37,10 +33,12 @@ import livetex.queue_service.FileMessage;
 import livetex.queue_service.Message;
 import livetex.queue_service.MessageAttributes;
 import livetex.queue_service.SendMessageResponse;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
+import ru.simdev.evo.life.R;
 import ru.simdev.livetex.Const;
 import ru.simdev.livetex.FragmentEnvironment;
 import ru.simdev.livetex.LivetexContext;
-import ru.simdev.evo.life.R;
 import ru.simdev.livetex.fragments.dialogs.AttachChooseDialog;
 import ru.simdev.livetex.fragments.dialogs.FileManagerDialog;
 import ru.simdev.livetex.models.EventMessage;
@@ -49,8 +47,6 @@ import ru.simdev.livetex.services.DownloadService;
 import ru.simdev.livetex.utils.CommonUtils;
 import ru.simdev.livetex.utils.DataKeeper;
 import ru.simdev.livetex.utils.LivetexUtils;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
 import sdk.handler.AHandler;
 import sdk.models.LTDialogAttributes;
 import sdk.models.LTEmployee;
@@ -157,6 +153,8 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                     }
                 }
                 pbHistory.setVisibility(View.GONE);
+
+                LivetexContext.sendCallback("updated");
             }
         });
 
@@ -244,6 +242,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                     scrollWithMessage(false, textMessage.getText(), textMessage.timestamp);
                 }
                 lastMessageId = textMessage.getId();
+                LivetexContext.sendCallback("updated");
                 break;
 
             case RECEIVE_FILE:
@@ -251,6 +250,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                 showProgress();
                 scrollWithMessage(false, fileMessage.getText(), String.valueOf(System.currentTimeMillis()));
                 dismissProgress();
+                LivetexContext.sendCallback("updated");
                 break;
         }
 

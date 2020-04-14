@@ -1,6 +1,7 @@
 package ru.simdev.livetex;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -12,7 +13,9 @@ import org.json.JSONException;
 import ru.simdev.livetex.utils.DataKeeper;
 
 public class Livetex extends CordovaPlugin {
-    
+
+    private static final String TAG = "Livetex";
+
     public static Context mContext;
 
     protected LivetexContext livetexContext;
@@ -36,6 +39,10 @@ public class Livetex extends CordovaPlugin {
             case "open":
                 openChat(args.getString(0), callbackContext);
                 return true;
+
+            case "callback":
+                setCallback(callbackContext);
+                return true;
         }
 
         return false;
@@ -56,6 +63,22 @@ public class Livetex extends CordovaPlugin {
             livetexContext.openChat();
         } catch (Exception e) {
 
+        }
+    }
+
+    public void destroy(final CallbackContext callbackContext) {
+        try {
+            livetexContext.destroyLivetex();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void setCallback(final CallbackContext callbackContext) {
+        try {
+            livetexContext.setCallback(callbackContext);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 }

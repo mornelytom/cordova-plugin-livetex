@@ -35,6 +35,10 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
+        if (remoteMessage.getNotification() == null) {
+            return;
+        }
+
         Intent intent = new Intent(this, FragmentEnvironment.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
