@@ -174,6 +174,7 @@ public class LivetexContext {
         sLiveTex.init(new IInitHandler() {
             @Override
             public void onSuccess(String token) {
+                sLiveTex.bindService();
                 Log.w(TAG, "LIVETEX INITED " + token);
                 sdk.data.DataKeeper.saveToken(instance().mContext, token);
                 postMessage(new EventMessage(BaseMessage.TYPE.INIT, token));
@@ -369,13 +370,17 @@ public class LivetexContext {
     }
 
     static public void destroyLivetex() {
+        Log.d(TAG, "destroyLivetex");
         if (sLiveTex != null) {
+            Log.d(TAG, "sLiveTex.destroy");
             sLiveTex.destroy();
         }
 
         if (sInstance != null) {
             sInstance.destroy();
         }
+
+        callback = null;
     }
 
     public void destroy() {

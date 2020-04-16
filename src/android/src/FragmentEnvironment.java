@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.fragment.app.FragmentActivity;
@@ -18,12 +19,22 @@ import sdk.handler.AHandler;
 
 public class FragmentEnvironment extends FragmentActivity {
 
+    private static final String TAG = "Livetex";
+
     public static Activity fa;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fa = this;
+
+        Log.d(TAG, "onCreate FragmentActivity");
 
         if (!isTaskRoot()
                 && getIntent().hasCategory(Intent.CATEGORY_LAUNCHER)
@@ -47,6 +58,7 @@ public class FragmentEnvironment extends FragmentActivity {
     }
 
     private boolean isAwakenByPush() {
+        Log.d(TAG, "isAwakenByPush");
         if (Const.PUSH_ONLINE_ACTION.equals(getIntent().getAction())) {
             String appID = DataKeeper.restoreAppId(this);
             String regID = DataKeeper.restoreRegId(this);
@@ -115,8 +127,10 @@ public class FragmentEnvironment extends FragmentActivity {
     protected void onStop() {
         LivetexContext.IS_ACTIVE = false;
 
+        Log.d(TAG, "Activity onStop");
+
         if (LivetexContext.getsLiveTex() != null) {
-            //LivetexContext.getsLiveTex().destroy();
+            //LivetexContext.getsLiveTex().unbindService();
         }
 
         super.onStop();

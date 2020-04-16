@@ -43,6 +43,10 @@ public class Livetex extends CordovaPlugin {
             case "callback":
                 setCallback(callbackContext);
                 return true;
+
+            case "destroy":
+                destroy(callbackContext);
+                return true;
         }
 
         return false;
