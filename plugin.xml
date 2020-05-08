@@ -52,7 +52,7 @@
     <source-file src="src/android/src/utils/BusProvider.java" target-dir="src/ru/simdev/livetex/utils" />
     <source-file src="src/android/src/utils/CommonUtils.java" target-dir="src/ru/simdev/livetex/utils" />
     <source-file src="src/android/src/utils/DataKeeper.java" target-dir="src/ru/simdev/livetex/utils" />
-    <source-file src="src/android/src/utils/DeviceUtils.java" target-dir="src/ru/simdev/livetex/utils" />
+    <!-- <source-file src="src/android/src/utils/DeviceUtils.java" target-dir="src/ru/simdev/livetex/utils" /> -->
     <source-file src="src/android/src/utils/LivetexUtils.java" target-dir="src/ru/simdev/livetex/utils" />
     <source-file src="src/android/src/utils/MultipartUtility.java" target-dir="src/ru/simdev/livetex/utils" />
     <source-file src="src/android/src/utils/MyDiscCache.java" target-dir="src/ru/simdev/livetex/utils" />

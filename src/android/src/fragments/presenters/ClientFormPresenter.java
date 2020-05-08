@@ -12,8 +12,6 @@ import livetex.queue_service.Destination;
 import ru.simdev.livetex.LivetexContext;
 import ru.simdev.livetex.fragments.callbacks.ClientFormCallback;
 import ru.simdev.livetex.utils.DataKeeper;
-import ru.simdev.livetex.utils.DeviceUtils;
-import ru.simdev.livetex.utils.UserData;
 import sdk.handler.AHandler;
 import sdk.models.LTDialogAttributes;
 
@@ -65,7 +63,7 @@ public class ClientFormPresenter extends BasePresenter<ClientFormCallback> {
 
     public static void sendToDestination(Context context, final Destination destination, final String name, ClientFormCallback callback) {
         
-
+/*
         final long mem = DeviceUtils.getFreeMemoryCount(context);
         int systemVersion = DeviceUtils.getAndroidVersion();
         final String device = DeviceUtils.getDevice();
@@ -75,12 +73,12 @@ public class ClientFormPresenter extends BasePresenter<ClientFormCallback> {
         final String email = "joe@gmail.com";
         new UserData.UserDataBuilder(context).addBatteryLevelInfo(batteryLevel)
                 .addDeviceInfo(device).addEmail(email).addMemoryInfo(mem).addVersionInfo(version).addWifiInfo(isWifiConnected).build().send();
-
+*/
         Map<String, String> map = new HashMap<>();
-        map.put("ОС и ее версия: ", String.valueOf(android.os.Build.VERSION.SDK_INT));
-        map.put("Модель устройства: ", device);
-        map.put("Версия мобильного приложения: ", version);
-        map.put("Тип соединения:",  (isWifiConnected ? "wi-fi" : "mobile"));
+        map.put("ОС и ее версия: ", "");
+        map.put("Модель устройства: ", "");
+        map.put("Версия мобильного приложения: ", "");
+        map.put("Тип соединения:",  "");
 
         LivetexContext.setName(name);
         DataKeeper.setClientName(context, name);
