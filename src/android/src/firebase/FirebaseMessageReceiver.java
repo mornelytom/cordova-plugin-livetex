@@ -38,8 +38,6 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
-        Log.d(TAG, "new push " + remoteMessage.getNotification().getBody());
-
         if (remoteMessage.getNotification() == null) {
             return;
         }

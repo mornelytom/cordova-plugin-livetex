@@ -13,12 +13,16 @@ public class MessageModel {
     private String date;
     private String conversationId;
     private String httpLink = "";
+    private String avatar;
+    private String name;
 
-    public MessageModel(boolean isVisitorMessage, String text, String date, String conversationId) {
+    public MessageModel(boolean isVisitorMessage, String text, String date, String conversationId, String avatar, String name) {
         this.isVisitorMessage = isVisitorMessage;
         this.text = text;
         this.date = date;
         this.conversationId = conversationId;
+        this.avatar = avatar;
+        this.name = name;
     }
 
     public MessageModel(LTTextMessage message) {
@@ -26,6 +30,8 @@ public class MessageModel {
         this.text = message.getText();
         this.date = message.getTimestamp();
         this.conversationId = message.getSender();
+        this.avatar = null;
+        this.name = null;
     }
 
     public String getId() {
@@ -55,4 +61,8 @@ public class MessageModel {
     public void setHttpLink(String httpLink) {
         this.httpLink = httpLink;
     }
+
+    public String getAvatar() { return avatar; }
+
+    public String getName() { return name; }
 }

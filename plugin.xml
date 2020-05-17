@@ -65,6 +65,7 @@
     <source-file src="src/android/src/view/RoundedImageView.java" target-dir="src/ru/simdev/livetex/view" />
     <source-file src="src/android/src/view/TextViewRoboto.java" target-dir="src/ru/simdev/livetex/view" />
     <source-file src="src/android/src/view/TextViewRobotoRegular.java" target-dir="src/ru/simdev/livetex/view" />
+    <source-file src="src/android/src/view/TextViewRobotoBold.java" target-dir="src/ru/simdev/livetex/view" />
 
     <!-- drawable src/android/resources -->
     <resource-file src="src/android/res/drawable/back.xml" target="res/drawable/back.xml" />
@@ -76,8 +77,6 @@
     <resource-file src="src/android/res/drawable/default_icon.xml" target="res/drawable/livetex_default_icon.xml" />
     <resource-file src="src/android/res/drawable/edittext_modified_states.xml" target="res/drawable/livetex_edittext_modified_states.xml" />
     <resource-file src="src/android/res/drawable/gray_btn.xml" target="res/drawable/livetex_gray_btn.xml" />
-    <resource-file src="src/android/res/drawable/message_left.xml" target="res/drawable/livetex_message_left.xml" />
-    <resource-file src="src/android/res/drawable/message_right.xml" target="res/drawable/livetex_message_right.xml" />
     <resource-file src="src/android/res/drawable-hdpi/add_file.png" target="res/drawable-hdpi/livetex_add_file.png" />
     <resource-file src="src/android/res/drawable-hdpi/add_file1.png" target="res/drawable-hdpi/livetex_add_file1.png" />
     <resource-file src="src/android/res/drawable-hdpi/ic_add_black_24dp.png" target="res/drawable-hdpi/livetex_ic_add_black_24dp.png" />
@@ -98,8 +97,6 @@
     <resource-file src="src/android/res/drawable-hdpi/send_msg1.png" target="res/drawable-hdpi/livetex_send_msg1.png" />
     <resource-file src="src/android/res/drawable-hdpi/smile1.png" target="res/drawable-hdpi/livetex_smile1.png" />
     <resource-file src="src/android/res/drawable-hdpi/tick_double.png" target="res/drawable-hdpi/livetex_tick_double.png" />
-    <resource-file src="src/android/res/drawable-hdpi/user_baloon.9.png" target="res/drawable-hdpi/livetex_user_baloon.9.png" />
-    <resource-file src="src/android/res/drawable-hdpi/user_baloon_active.9.png" target="res/drawable-hdpi/livetex_user_baloon_active.9.png" />
     <resource-file src="src/android/res/drawable-mdpi/add_file.png" target="res/drawable-mdpi/livetex_add_file.png" />
     <resource-file src="src/android/res/drawable-mdpi/add_file1.png" target="res/drawable-mdpi/livetex_add_file1.png" />
     <resource-file src="src/android/res/drawable-mdpi/ic_add_black_24dp.png" target="res/drawable-mdpi/livetex_ic_add_black_24dp.png" />
@@ -120,8 +117,6 @@
     <resource-file src="src/android/res/drawable-mdpi/send_msg1.png" target="res/drawable-mdpi/livetex_send_msg1.png" />
     <resource-file src="src/android/res/drawable-mdpi/smile1.png" target="res/drawable-mdpi/livetex_smile1.png" />
     <resource-file src="src/android/res/drawable-mdpi/tick_double.png" target="res/drawable-mdpi/livetex_tick_double.png" />
-    <resource-file src="src/android/res/drawable-mdpi/user_baloon.9.png" target="res/drawable-mdpi/livetex_user_baloon.9.png" />
-    <resource-file src="src/android/res/drawable-mdpi/user_baloon_active.9.png" target="res/drawable-mdpi/livetex_user_baloon_active.9.png" />
     <resource-file src="src/android/res/drawable-nodpi/avatarka.jpg" target="res/drawable-nodpi/livetex_avatarka.jpg" />
     <resource-file src="src/android/res/drawable-xhdpi/add_file.png" target="res/drawable-xhdpi/livetex_add_file.png" />
     <resource-file src="src/android/res/drawable-xhdpi/add_file1.png" target="res/drawable-xhdpi/livetex_add_file1.png" />
@@ -143,8 +138,6 @@
     <resource-file src="src/android/res/drawable-xhdpi/send_msg1.png" target="res/drawable-xhdpi/livetex_send_msg1.png" />
     <resource-file src="src/android/res/drawable-xhdpi/smile1.png" target="res/drawable-xhdpi/livetex_smile1.png" />
     <resource-file src="src/android/res/drawable-xhdpi/tick_double.png" target="res/drawable-xhdpi/livetex_tick_double.png" />
-    <resource-file src="src/android/res/drawable-xhdpi/user_baloon.9.png" target="res/drawable-xhdpi/livetex_user_baloon.9.png" />
-    <resource-file src="src/android/res/drawable-xhdpi/user_baloon_active.9.png" target="res/drawable-xhdpi/livetex_user_baloon_active.9.png" />
     <resource-file src="src/android/res/drawable-xxhdpi/add_file.png" target="res/drawable-xxhdpi/livetex_add_file.png" />
     <resource-file src="src/android/res/drawable-xxhdpi/add_file1.png" target="res/drawable-xxhdpi/livetex_add_file1.png" />
     <resource-file src="src/android/res/drawable-xxhdpi/ic_add_black_24dp.png" target="res/drawable-xxhdpi/livetex_ic_add_black_24dp.png" />
@@ -164,8 +157,6 @@
     <resource-file src="src/android/res/drawable-xxhdpi/send_msg1.png" target="res/drawable-xxhdpi/livetex_send_msg1.png" />
     <resource-file src="src/android/res/drawable-xxhdpi/smile1.png" target="res/drawable-xxhdpi/livetex_smile1.png" />
     <resource-file src="src/android/res/drawable-xxhdpi/tick_double.png" target="res/drawable-xxhdpi/livetex_tick_double.png" />
-    <resource-file src="src/android/res/drawable-xxhdpi/user_baloon.9.png" target="res/drawable-xxhdpi/livetex_user_baloon.9.png" />
-    <resource-file src="src/android/res/drawable-xxhdpi/user_baloon_active.9.png" target="res/drawable-xxhdpi/livetex_user_baloon_active.9.png" />
     <resource-file src="src/android/res/drawable-xxxhdpi/add_file1.png" target="res/drawable-xxxhdpi/livetex_add_file1.png" />
     <resource-file src="src/android/res/drawable-xxxhdpi/ic_add_black_24dp.png" target="res/drawable-xxxhdpi/livetex_ic_add_black_24dp.png" />
     <resource-file src="src/android/res/drawable-xxxhdpi/ic_app.png" target="res/drawable-xxxhdpi/livetex_ic_app.png" />
@@ -181,8 +172,12 @@
     <resource-file src="src/android/res/drawable-xxxhdpi/operator_baloon_active.9.png" target="res/drawable-xxxhdpi/livetex_operator_baloon_active.9.png" />
     <resource-file src="src/android/res/drawable-xxxhdpi/send_msg1.png" target="res/drawable-xxxhdpi/livetex_send_msg1.png" />
     <resource-file src="src/android/res/drawable-xxxhdpi/smile1.png" target="res/drawable-xxxhdpi/livetex_smile1.png" />
-    <resource-file src="src/android/res/drawable-xxxhdpi/user_baloon.9.png" target="res/drawable-xxxhdpi/livetex_user_baloon.9.png" />
-    <resource-file src="src/android/res/drawable-xxxhdpi/user_baloon_active.9.png" target="res/drawable-xxxhdpi/livetex_user_baloon_active.9.png" />
+    
+    <resource-file src="src/android/res/drawable/cloud_blue.9.png" target="res/drawable/livetex_cloud_blue.9.png" />
+    <resource-file src="src/android/res/drawable/cloud_gray.9.png" target="res/drawable/livetex_cloud_gray.9.png" />
+    <resource-file src="src/android/res/drawable/rectangle.xml" target="res/drawable/livetex_rectangle.xml" />
+    <resource-file src="src/android/res/drawable/send_button.xml" target="res/drawable/livetex_send_button.xml" />
+    
     <resource-file src="src/android/res/layout/activity_main1.xml" target="res/layout/livetex_activity_main1.xml" />
     <resource-file src="src/android/res/layout/choose_mode.xml" target="res/layout/livetex_choose_mode.xml" />
     <resource-file src="src/android/res/layout/fragment_abuse.xml" target="res/layout/livetex_fragment_abuse.xml" />

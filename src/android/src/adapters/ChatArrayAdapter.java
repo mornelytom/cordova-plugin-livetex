@@ -2,8 +2,6 @@ package ru.simdev.livetex.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ru.simdev.evo.life.R;
-import ru.simdev.livetex.models.MessageModel;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
@@ -26,6 +22,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import ru.simdev.evo.life.R;
+import ru.simdev.livetex.models.MessageModel;
+import ru.simdev.livetex.view.RoundedImageView;
 
 /**
  * Created by dev on 02.06.16.
@@ -49,15 +49,17 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.livetex_item_chat, parent, false);
         MessageModel message = getItem(position);
 
-        if(message.isVisitorMessage()) {
-            setBubbleState(view,message, BubbleState.VISITOR);
+        if (message.isVisitorMessage()) {
+            setBubbleState(view, message, BubbleState.VISITOR, BubbleState.VISITOR);
         } else {
-            setBubbleState(view, message, BubbleState.OPERATOR);
+            Log.e("Livetex", "count: " + getCount() + " position: " + position);
+            MessageModel nextMessage = getCount() > position + 1 ? getItem(position + 1) : null;
+
+            setBubbleState(view, message, BubbleState.OPERATOR, nextMessage == null || nextMessage.isVisitorMessage() ? BubbleState.VISITOR : BubbleState.OPERATOR);
         }
 
         return view;
     }
-
 
     public void setData(MessageModel message) {
         add(message);
@@ -83,13 +85,15 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
         TextView tvDialogState;
         TextView tvMessageLeft;
         TextView tvMessageRight;
+        TextView tvOperatorName;
         TextView tvTimerLeft;
         TextView tvTimerRight;
+        RoundedImageView tvAvatarHeader;
         ImageView ivScreenshot;
         ImageView ivScreenshot1;
     }
 
-    private void setBubbleState(final View view,  final MessageModel offlineMessagePersistent, BubbleState state) {
+    private void setBubbleState(final View view,  final MessageModel offlineMessagePersistent, BubbleState state, BubbleState nextState) {
         ViewHolder holder = null;
         if(view.getTag() == null) {
             holder = new ViewHolder();
@@ -100,8 +104,10 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
             holder.tvDialogState = (TextView) view.findViewById(R.id.tvDialogState);
             holder.tvMessageLeft = (TextView) view.findViewById(R.id.tvLeft);
             holder.tvMessageRight = (TextView) view.findViewById(R.id.tvRight);
+            holder.tvOperatorName = (TextView) view.findViewById(R.id.tvOperatorName);
             holder.tvTimerLeft = (TextView) view.findViewById(R.id.tvTimerLeft);
             holder.tvTimerRight = (TextView) view.findViewById(R.id.tvTimerRight);
+            holder.tvAvatarHeader = (RoundedImageView) view.findViewById(R.id.tvAvatarHeader);
             holder.ivScreenshot = (ImageView) view.findViewById(R.id.ivScreenshot);
             holder.ivScreenshot1 = (ImageView) view.findViewById(R.id.ivScreenshot1);
             view.setTag(holder);
@@ -109,10 +115,10 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.llRightBaloon.getBackground().setColorFilter(getContext().getResources().getColor(R.color.new_blue), PorterDuff.Mode.SRC_ATOP);
-        holder.llLeftBaloon.getBackground().setColorFilter(getContext().getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        holder.tvMessageLeft.setTextColor(Color.BLACK);
-        holder.tvMessageRight.setTextColor(Color.WHITE);
+        //holder.llRightBaloon.getBackground().setColorFilter(getContext().getResources().getColor(R.color.new_blue), PorterDuff.Mode.SRC_ATOP);
+        //holder.llLeftBaloon.getBackground().setColorFilter(getContext().getResources().getColor(R.color.chat_white), PorterDuff.Mode.SRC_ATOP);
+        holder.tvMessageLeft.setTextColor(getContext().getResources().getColor(R.color.chat_text));
+        holder.tvMessageRight.setTextColor(getContext().getResources().getColor(R.color.chat_text));
 
         if("CLOSE_DIALOG".equals(offlineMessagePersistent.getText())) {
             state = BubbleState.CLOSE;
@@ -235,6 +241,15 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
                 holder.tvMessageLeft.setVisibility(View.VISIBLE);
                 holder.llRight.setVisibility(View.GONE);
                 holder.llLeft.setVisibility(View.VISIBLE);
+
+                if (offlineMessagePersistent.getAvatar() == null || nextState == BubbleState.OPERATOR) {
+                    holder.tvAvatarHeader.setVisibility(View.INVISIBLE);
+                } else {
+                    ImageLoader.getInstance().displayImage(offlineMessagePersistent.getAvatar(), holder.tvAvatarHeader);
+                    holder.tvAvatarHeader.setVisibility(View.VISIBLE);
+                }
+
+                holder.tvOperatorName.setText("Оператор " + (offlineMessagePersistent.getName() == null ? "" : offlineMessagePersistent.getName()));
                 holder.tvMessageLeft.setText(offlineMessagePersistent.getText());
                 holder.tvTimerLeft.setText(formatTimestamp1(offlineMessagePersistent.getDate()));
                 break;
@@ -245,6 +260,15 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
                 holder.llRight.setVisibility(View.GONE);
                 holder.tvMessageRight.setVisibility(View.GONE);
                 holder.tvMessageLeft.setVisibility(View.GONE);
+
+                if (offlineMessagePersistent.getAvatar() == null || nextState == BubbleState.OPERATOR) {
+                    holder.tvAvatarHeader.setVisibility(View.INVISIBLE);
+                } else {
+                    ImageLoader.getInstance().displayImage(offlineMessagePersistent.getAvatar(), holder.tvAvatarHeader);
+                    holder.tvAvatarHeader.setVisibility(View.VISIBLE);
+                }
+
+                holder.tvOperatorName.setText("Оператор " + (offlineMessagePersistent.getName() == null ? "" : offlineMessagePersistent.getName()));
                 holder.tvTimerLeft.setText(formatTimestamp1(offlineMessagePersistent.getDate()));
                 break;
             case  FILE_VISITOR:

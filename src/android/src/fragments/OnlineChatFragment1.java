@@ -65,7 +65,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
     private static final String TAG = "Livetex";
 
     private String avatar;
-    private String firstName;
+    private String name;
 
     private boolean isDialogClosed;
 
@@ -104,6 +104,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
     }
 
     private void updateMessageHistory(int offset, int limit, final boolean scrollDown) {
+        Log.d(TAG, "updateMessageHistory");
         pbHistory.setVisibility(View.VISIBLE);
         LivetexContext.getLastMessages(offset, limit, new AHandler<LTSerializableHolder>() {
             @Override
@@ -118,9 +119,9 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                     pbHistory.setVisibility(View.GONE);
                     return;
                 }
+
                 List<Message> result = (List<Message>) result1.getSerializable();
                 if (result != null) {
-                    Log.d(TAG, "getHistory " + result.size());
                     ArrayList<MessageModel> messages = new ArrayList<>();
                     for (Message message2 : result) {
                         if (message2.attributes.isSetText()) {
@@ -128,15 +129,14 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                             String created = (String) message1.getFieldValue(livetex.queue_service.TextMessage._Fields.CREATED);
                             String sender = (String) message1.getFieldValue(livetex.queue_service.TextMessage._Fields.SENDER);
                             String text = (String) message1.getFieldValue(livetex.queue_service.TextMessage._Fields.TEXT);
-                            Log.d("history", "");
-                            MessageModel messageModel = new MessageModel(!(sender != null), text, created, conversationId);
+                            MessageModel messageModel = new MessageModel(!(sender != null), text, created, conversationId, sender == null ? null : avatar, sender == null ? null : name);
                             messages.add(messageModel);
                         } else if (message2.attributes.isSetFile()) {
                             livetex.queue_service.FileMessage messageFile = (livetex.queue_service.FileMessage) message2.attributes.getFieldValue(MessageAttributes._Fields.FILE);
                             String created = (String) messageFile.getFieldValue(FileMessage._Fields.CREATED);
                             String sender = (String) messageFile.getFieldValue(FileMessage._Fields.SENDER);
                             String text = (String) messageFile.getFieldValue(FileMessage._Fields.URL);
-                            MessageModel messageModel = new MessageModel(!(sender != null), text, created, conversationId);
+                            MessageModel messageModel = new MessageModel(!(sender != null), text, created, conversationId, sender == null ? null : avatar, sender == null ? null : name);
                             messages.add(messageModel);
                         }
 
@@ -210,23 +210,25 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
     @Subscribe
     public void onMessageReceive(EventMessage eventMessage) {
         Log.d(TAG, "onMessageReceive");
+
         switch (eventMessage.getMessageType()) {
             case UPDATE_STATE:
-                Log.d(TAG, "operator");
                 LTEmployee employee = (LTEmployee) eventMessage.getSerializable();
-                Log.d(TAG, "operator " + employee.getAvatar() + " " + employee.getFirstname());
+
                 setHeaderData(employee.getAvatar(), employee.getFirstname(), employee.getLastname());
                 setConversationId(employee.getEmployeeId());
                 sendingMessagesEnabled(true);
+
                 if (!lastMessageId.equals("OPEN_DIALOG")) {
-                    scrollWithMessage(false, "OPEN_DIALOG", String.valueOf(System.currentTimeMillis()));
+                    scrollWithMessage(false, "OPEN_DIALOG", String.valueOf(System.currentTimeMillis()), employee.getAvatar(), employee.getFirstname() + " " + employee.getLastname());
                 }
+
                 lastMessageId = "OPEN_DIALOG";
                 break;
             case CLOSE:
                 setHeaderData(null, "Оператор", "");
                 if (!lastMessageId.equals("CLOSE_DIALOG")) {
-                    scrollWithMessage(false, "CLOSE_DIALOG", String.valueOf(System.currentTimeMillis()));
+                    scrollWithMessage(false, "CLOSE_DIALOG", String.valueOf(System.currentTimeMillis()), null, null);
                 }
                 lastMessageId = "CLOSE_DIALOG";
                 break;
@@ -239,7 +241,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                 LTTextMessage textMessage = (LTTextMessage) eventMessage.getSerializable();
                 LivetexContext.confirmQueueMessage(textMessage.getId());
                 if (!lastMessageId.equals(textMessage.getId())) {
-                    scrollWithMessage(false, textMessage.getText(), textMessage.timestamp);
+                    scrollWithMessage(false, textMessage.getText(), textMessage.timestamp, avatar, name);
                 }
                 lastMessageId = textMessage.getId();
                 LivetexContext.sendCallback("updated");
@@ -248,7 +250,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
             case RECEIVE_FILE:
                 LTFileMessage fileMessage = (LTFileMessage) eventMessage.getSerializable();
                 showProgress();
-                scrollWithMessage(false, fileMessage.getText(), String.valueOf(System.currentTimeMillis()));
+                scrollWithMessage(false, fileMessage.getText(), String.valueOf(System.currentTimeMillis()), avatar, name);
                 dismissProgress();
                 LivetexContext.sendCallback("updated");
                 break;
@@ -316,7 +318,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
                         public void run() {
 
                             LivetexContext.sendFileQueue(url, null);
-                            scrollWithFile(true, url, String.valueOf(System.currentTimeMillis()));
+                            scrollWithFile(true, url, String.valueOf(System.currentTimeMillis()), null, null);
                             dismissProgress();
                         }
                     });
@@ -332,19 +334,19 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
 
     }
 
-    private void scrollWithMessage(boolean isVisitor, String message, String time) {
-        adapter.setData(new MessageModel(isVisitor, message, time, conversationId));
+    private void scrollWithMessage(boolean isVisitor, String message, String time, String avatar, String name) {
+        adapter.setData(new MessageModel(isVisitor, message, time, conversationId, avatar, name));
         lvChat.setSelection(lvChat.getCount() - 1);
     }
 
-    private void scrollWithFile(boolean isVisitor, String message, String time) {
-        adapter.setData(new MessageModel(isVisitor, message, time, conversationId));
+    private void scrollWithFile(boolean isVisitor, String message, String time, String avatar, String name) {
+        adapter.setData(new MessageModel(isVisitor, message, time, conversationId, avatar, name));
     }
 
     @Override
     public void sendMessage(final String message) {
         handler.postDelayed(() -> {
-            scrollWithMessage(true, message, String.valueOf(System.currentTimeMillis()));
+            scrollWithMessage(true, message, String.valueOf(System.currentTimeMillis()), null, null);
         }, 200);
 
         LivetexContext.sendTextMessage(message, new AHandler<SendMessageResponse>() {
@@ -382,7 +384,13 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
     }
 
     private void setHeaderData(@Nullable String avatar, String firstName, String lastName) {
+        if (avatar != null && avatar.indexOf("http") == -1) {
+            this.avatar = "https://static.livetex.ru/" + avatar;
+        } else {
+            this.avatar = avatar;
+        }
 
+        this.name = firstName + " " + lastName;
     }
 
     private void sendingMessagesEnabled(boolean enabled) {
@@ -443,7 +451,7 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
 
     private void updateChatWithFilePath(String path) {
         dismissProgress();
-        scrollWithMessage(true, path, String.valueOf(System.currentTimeMillis()));
+        scrollWithMessage(true, path, String.valueOf(System.currentTimeMillis()), null, null);
     }
 
     private class DownloadReceiver extends ResultReceiver {

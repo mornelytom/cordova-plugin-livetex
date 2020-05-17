@@ -1,6 +1,8 @@
 package ru.simdev.livetex.fragments.presenters;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.HandlerThread;
 
@@ -74,11 +76,23 @@ public class ClientFormPresenter extends BasePresenter<ClientFormCallback> {
         new UserData.UserDataBuilder(context).addBatteryLevelInfo(batteryLevel)
                 .addDeviceInfo(device).addEmail(email).addMemoryInfo(mem).addVersionInfo(version).addWifiInfo(isWifiConnected).build().send();
 */
+
+        String version = "";
+
+        try {
+            version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
         Map<String, String> map = new HashMap<>();
-        map.put("ОС и ее версия: ", "");
-        map.put("Модель устройства: ", "");
-        map.put("Версия мобильного приложения: ", "");
-        map.put("Тип соединения:",  "");
+        map.put("ОС и ее версия: ", String.valueOf(android.os.Build.VERSION.SDK_INT));
+        map.put("Модель устройства: ", android.os.Build.MODEL);
+        map.put("Версия мобильного приложения: ", version);
+        map.put("Тип соединения:",  (mWifi.isConnected() ? "wi-fi" : "mobile"));
 
         LivetexContext.setName(name);
         DataKeeper.setClientName(context, name);

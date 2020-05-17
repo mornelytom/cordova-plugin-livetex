@@ -18,8 +18,11 @@
     <color name="new_ultra_light_gray">#F4F4F4</color>
     <color name="new_light_gray">#F2F5FB</color>
     <color name="new_light_gray_border">#E4E4E4</color>
-    <color name="new_gray">#b3b3b3</color>
-    <color name="new_blue">#0277bd</color>
+    <color name="time_gray">#2D384A</color>
+    <color name="new_gray">#E4E4E4</color>
+    <color name="new_blue">#E1F0FF</color>
+    <color name="chat_white">#F4F4F4</color>
+    <color name="chat_text">#2D384A</color>
     <color name="new_green">#20C88C</color>
     <color name="new_red">#D66464</color>
 </resources>

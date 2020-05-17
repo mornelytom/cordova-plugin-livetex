@@ -18,7 +18,7 @@
         android:textSize="@dimen/header_title"
         android:id="@+id/tvHeaderTitle"
         android:textColor="@android:color/white"
-        android:text="Служба поддержки"
+        android:text="Онлайн чат"
         android:layout_toEndOf="@+id/ivGoBack"
         android:gravity="center"
         android:layout_marginEnd="32dp"
