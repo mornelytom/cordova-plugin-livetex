@@ -1,6 +1,7 @@
 package ru.simdev.livetex;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -31,6 +32,7 @@ import ru.simdev.livetex.models.ErrorMessage1;
 import ru.simdev.livetex.models.EventMessage;
 import ru.simdev.livetex.utils.BusProvider;
 import ru.simdev.livetex.utils.ThreadUtils;
+import ru.simdev.livetex.firebase.FirebaseMessageReceiver;
 import sdk.Livetex;
 import sdk.data.DataKeeper;
 import sdk.handler.AHandler;
@@ -348,6 +350,9 @@ public class LivetexContext {
             new Runnable() {
                 @Override
                 public void run() {
+                    NotificationManager notificationManager = (NotificationManager)  mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
+                    notificationManager.cancelAll();
+
                     Intent intent = new Intent(mContext, FragmentEnvironment.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 
