@@ -61,7 +61,7 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
         }
 
         if (Build.VERSION.SDK_INT >= 26) {
-            createNotificationChannel();
+            createNotificationChannel(this);
             notificationBuilder.setChannelId(CHANNEL_ID);
         }
 
@@ -71,9 +71,9 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
-    private void createNotificationChannel() {
+    public static void createNotificationChannel(Context context) {
         if (!channelInited && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager manager = this.getSystemService(NotificationManager.class);
+            NotificationManager manager = context.getSystemService(NotificationManager.class);
 
             NotificationChannel callChannel = new NotificationChannel(
                     CHANNEL_ID,

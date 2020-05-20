@@ -1,9 +1,12 @@
 package ru.simdev.livetex;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -26,13 +29,15 @@ import livetex.capabilities.Capabilities;
 import livetex.dialog.DialogAttributes;
 import livetex.queue_service.Destination;
 import livetex.queue_service.SendMessageResponse;
+import ru.simdev.evo.life.R;
+import ru.simdev.livetex.firebase.FirebaseMessageReceiver;
+import ru.simdev.livetex.fragments.OnlineChatFragment1;
 import ru.simdev.livetex.fragments.presenters.InitPresenter;
 import ru.simdev.livetex.models.BaseMessage;
 import ru.simdev.livetex.models.ErrorMessage1;
 import ru.simdev.livetex.models.EventMessage;
 import ru.simdev.livetex.utils.BusProvider;
 import ru.simdev.livetex.utils.ThreadUtils;
-import ru.simdev.livetex.firebase.FirebaseMessageReceiver;
 import sdk.Livetex;
 import sdk.data.DataKeeper;
 import sdk.handler.AHandler;
@@ -58,7 +63,7 @@ public class LivetexContext {
 
     private static CallbackContext callback = null;
 
-    private Context mContext;
+    private static Context mContext;
 
     public static String currentConversation = "";
     public static boolean IS_ACTIVE = false;
@@ -264,10 +269,57 @@ public class LivetexContext {
             switch (message.getMessageType()) {
                 case RECEIVE_QUEUE_MSG:
                 case RECEIVE_FILE:
+                    if (!OnlineChatFragment1.isActive) {
+                        sendNotification(message);
+                    }
+
                     sendCallback("receive");
                     break;
             }
         }
+    }
+
+    static private void sendNotification(BaseMessage message) {
+        Intent intent = new Intent(mContext.getApplicationContext(), FragmentEnvironment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+        String messageText = "";
+
+        switch (message.getMessageType()) {
+            case RECEIVE_QUEUE_MSG:
+                LTTextMessage textMessage = (LTTextMessage) message.getSerializable();
+                messageText = textMessage.getText();
+                break;
+
+            case RECEIVE_FILE:
+                LTFileMessage fileMessage = (LTFileMessage) message.getSerializable();
+                messageText = "\uD83D\uDCCE <Вложение>";
+                break;
+        }
+
+        String messageTitle = "Новое сообщение чата";
+
+        Notification.Builder notificationBuilder = new Notification.Builder(mContext)
+                .setSmallIcon(R.drawable.icon)
+                .setContentTitle(messageTitle)
+                .setContentText(messageText)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            notificationBuilder.setColor(FirebaseMessageReceiver.iconColor);
+        }
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            FirebaseMessageReceiver.createNotificationChannel(mContext);
+            notificationBuilder.setChannelId(FirebaseMessageReceiver.CHANNEL_ID);
+        }
+
+        NotificationManager notificationManager =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
 
@@ -301,20 +353,19 @@ public class LivetexContext {
     }
 
     public static void setDestination(Destination destination, LTDialogAttributes dialogAttrs) {
-
-        if(sLiveTex != null) {
+        if (sLiveTex != null) {
             sLiveTex.setDestination(destination, dialogAttrs);
         }
     }
 
     public static void sendTextMessage(String message, AHandler<SendMessageResponse> handler) {
-        if(sLiveTex != null) {
+        if (sLiveTex != null) {
             sLiveTex.sendTextMessage(message, handler);
         }
     }
 
     public static void getStateQueue(AHandler<livetex.queue_service.DialogState> handler) {
-        if(sLiveTex != null) {
+        if (sLiveTex != null) {
             sLiveTex.getState(handler);
         }
     }
@@ -350,9 +401,6 @@ public class LivetexContext {
             new Runnable() {
                 @Override
                 public void run() {
-                    NotificationManager notificationManager = (NotificationManager)  mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
-                    notificationManager.cancelAll();
-
                     Intent intent = new Intent(mContext, FragmentEnvironment.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 

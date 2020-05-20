@@ -73,6 +73,8 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
     private boolean allHistoryDownloaded;
     private String lastMessageId = "";
 
+    public static boolean isActive;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +86,8 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
     @Override
     protected View onCreateView(View v) {
         super.onCreateView(v);
+
+        isActive = true;
 
         ImageView ivSendFile = (ImageView) v.findViewById(R.id.ivSendFile);
         ivSendFile.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +175,26 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
         handler.post(new GetDialogStateTask());
         // todo: not required, updateDialogState should be used
         handler.postDelayed(new GetDialogStateTask(), 7000);
+
+        isActive = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isActive = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isActive = false;
     }
 
     private class GetDialogStateTask implements Runnable {
