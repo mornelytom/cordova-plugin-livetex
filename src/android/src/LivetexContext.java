@@ -5,7 +5,9 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -77,6 +79,9 @@ public class LivetexContext {
     private static String AUTH_URL = AUTH_URL_REAL;
     private static String API_KEY = API_KEY_REAL;
 
+    private SharedPreferences sharedPref;
+    private static SharedPreferences.Editor editor;
+
     public static void setProductionScope() {
         API_KEY = API_KEY_REAL;
         AUTH_URL = AUTH_URL_REAL;
@@ -120,6 +125,9 @@ public class LivetexContext {
     public void init() {
         boolean isMainProcess = ThreadUtils.getNameFromActivityThread().equals(mContext.getPackageName());
 
+        sharedPref = mContext.getApplicationContext().getSharedPreferences("NativeStorage", Activity.MODE_PRIVATE);
+        editor = sharedPref.edit();
+
         if (isMainProcess && !inited) {
             DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                     .cacheInMemory(true)
@@ -145,6 +153,21 @@ public class LivetexContext {
         } else {
             // init here additional stuff like remote services (adverts, metrics etc.)
         }
+    }
+
+    public Activity getActivity(Context context)
+    {
+        if (context == null) {
+            return null;
+        } else if (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            } else {
+                return getActivity(((ContextWrapper) context).getBaseContext());
+            }
+        }
+
+        return null;
     }
 
     public static void pushToActivitiesStack(Activity activity) {
@@ -438,5 +461,10 @@ public class LivetexContext {
 
     public void destroy() {
         sInstance = null;
+    }
+
+    public static void removeMessagesFlag() {
+        editor.putString("chat_new_messages", "0");
+        editor.commit();
     }
 }

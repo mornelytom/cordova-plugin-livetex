@@ -104,6 +104,8 @@ public class OnlineChatFragment1 extends BaseChatFragment1 {
             }
         });
 
+        LivetexContext.removeMessagesFlag();
+
         return v;
     }
 
