@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 import sdk.models.LTDepartment;
 
 /**

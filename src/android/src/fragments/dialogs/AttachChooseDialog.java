@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 
 public class AttachChooseDialog extends DialogFragment implements DialogInterface.OnClickListener {
 

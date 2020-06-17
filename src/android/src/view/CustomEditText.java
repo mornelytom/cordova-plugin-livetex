@@ -9,7 +9,7 @@ import android.view.View;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 
 /**
  * Created by user on 13.09.15.

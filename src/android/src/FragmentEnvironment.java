@@ -10,7 +10,7 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.FragmentActivity;
 
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 import ru.simdev.livetex.fragments.InitFragment;
 import ru.simdev.livetex.fragments.OnlineChatFragment1;
 import ru.simdev.livetex.utils.BusProvider;

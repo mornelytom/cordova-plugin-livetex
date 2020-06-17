@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import livetex.queue_service.Destination;
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 import ru.simdev.livetex.LivetexContext;
 import ru.simdev.livetex.fragments.callbacks.ClientFormCallback;
 import ru.simdev.livetex.fragments.presenters.ClientFormPresenter;

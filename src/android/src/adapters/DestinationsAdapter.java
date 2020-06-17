@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import livetex.queue_service.Destination;
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 
 public class DestinationsAdapter extends ArrayAdapter<DestinationsAdapter.DestinationWrapper> {
     public DestinationsAdapter(Context context) {

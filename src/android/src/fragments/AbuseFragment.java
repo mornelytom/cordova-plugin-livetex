@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 import ru.simdev.livetex.view.CustomEditText;
 
 /**

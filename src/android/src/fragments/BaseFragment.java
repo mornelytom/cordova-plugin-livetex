@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 import ru.simdev.livetex.FragmentEnvironment;
 import ru.simdev.livetex.utils.BusProvider;
 

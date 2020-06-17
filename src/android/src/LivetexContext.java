@@ -31,7 +31,7 @@ import livetex.capabilities.Capabilities;
 import livetex.dialog.DialogAttributes;
 import livetex.queue_service.Destination;
 import livetex.queue_service.SendMessageResponse;
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 import ru.simdev.livetex.firebase.FirebaseMessageReceiver;
 import ru.simdev.livetex.fragments.OnlineChatFragment1;
 import ru.simdev.livetex.fragments.presenters.InitPresenter;

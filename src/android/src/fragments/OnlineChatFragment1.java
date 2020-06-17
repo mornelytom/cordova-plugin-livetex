@@ -35,7 +35,7 @@ import livetex.queue_service.MessageAttributes;
 import livetex.queue_service.SendMessageResponse;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 import ru.simdev.livetex.Const;
 import ru.simdev.livetex.FragmentEnvironment;
 import ru.simdev.livetex.LivetexContext;

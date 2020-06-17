@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import ru.simdev.evo.life.R;
+import ru.simdev.evo.video.R;
 import ru.simdev.livetex.adapters.ChatArrayAdapter;
 import ru.simdev.livetex.fragments.dialogs.FileManagerDialog;
 import ru.simdev.livetex.utils.LivetexUtils;
