@@ -3,7 +3,6 @@ package ru.simdev.livetex.fragments;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -18,7 +17,6 @@ public class AbuseFragment extends BaseFragment implements View.OnClickListener 
     EditText etAbusePhone;
     EditText etAbuseMessage;
     EditText etEmail;
-    Button btnSendAbuse;
 
     @Override
     protected int getLayoutId() {
@@ -46,17 +44,12 @@ public class AbuseFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        if(R.id.btnSendAbuse == view.getId()) {
-
-        }
     }
 
     private void init(View v) {
         etAbuseMessage = (CustomEditText) v.findViewById(R.id.etAbuseMessage);
         etAbusePhone = (CustomEditText) v.findViewById(R.id.etAbusePhone);
         etEmail = (CustomEditText) v.findViewById(R.id.etEmail);
-        btnSendAbuse = (Button) v.findViewById(R.id.btnSendAbuse);
-        btnSendAbuse.setOnClickListener(this);
     }
 
     @Override
