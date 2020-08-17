@@ -1,0 +1,436 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)
+// swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name LivetexCore
+import Foundation
+@_exported import LivetexCore
+import Swift
+import UIKit
+public struct Creator : Swift.Codable {
+  public let type: LivetexCore.Creator.CreatorType
+  public let employee: LivetexCore.Employee?
+  public var isVisitor: Swift.Bool {
+    get
+  }
+  public enum CreatorType : Swift.String, Swift.Codable {
+    case visitor
+    case employee
+    case system
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension ClientEvent {
+  public enum EventType : Swift.String, Swift.Codable {
+    case text
+    case file
+    case rating
+    case typing
+    case attributes
+    case department
+    case getHistory
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+}
+public struct ResultMessage : Swift.Codable {
+  public let correlationId: Swift.String
+  public let type: LivetexCore.ServiceEvent.EventType
+  public let sentMessage: LivetexCore.ResultMessage.SentMessage?
+  public let error: [LivetexCore.ResponseError]
+  public struct SentMessage : Swift.Codable {
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum ResponseError : Swift.String, Swift.Codable {
+  case systemUnavailable
+  case fileNoName
+  case fileNoUrl
+  case contentIsEmpty
+  case attributesWrongFormat
+  case departmentNoId
+  case departmentInvalidId
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ClientEvent : Swift.Encodable {
+  public let correlationID: Swift.String
+  public let content: LivetexCore.ClientEvent.Content
+  public init(_ content: LivetexCore.ClientEvent.Content)
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct WebSocketEvents {
+  public var open: () -> ()
+  public var close: (Swift.Int, Swift.String, Swift.Bool) -> ()
+  public var error: (Swift.Error) -> ()
+  public var message: (Any) -> ()
+  public var pong: (Any) -> ()
+  public var end: (Swift.Int, Swift.String, Swift.Bool, Swift.Error?) -> ()
+}
+public enum WebSocketBinaryType : Swift.CustomStringConvertible {
+  case uInt8Array
+  case nsData
+  case uInt8UnsafeBufferPointer
+  public var description: Swift.String {
+    get
+  }
+  public static func == (a: LivetexCore.WebSocketBinaryType, b: LivetexCore.WebSocketBinaryType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc public enum WebSocketReadyState : Swift.Int, Swift.CustomStringConvertible {
+  case connecting = 0
+  case open = 1
+  case closing = 2
+  case closed = 3
+  public var description: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct WebSocketCompression {
+  public var on: Swift.Bool
+  public var noContextTakeover: Swift.Bool
+  public var maxWindowBits: Swift.Int
+}
+public struct WebSocketService : Swift.OptionSet {
+  public typealias RawValue = Swift.UInt
+  public init(rawValue value: Swift.UInt)
+  public init(nilLiteral: ())
+  public static var allZeros: LivetexCore.WebSocketService {
+    get
+  }
+  public var rawValue: Swift.UInt {
+    get
+  }
+  public static var None: LivetexCore.WebSocketService {
+    get
+  }
+  public static var VoIP: LivetexCore.WebSocketService {
+    get
+  }
+  public static var Video: LivetexCore.WebSocketService {
+    get
+  }
+  public static var Background: LivetexCore.WebSocketService {
+    get
+  }
+  public static var Voice: LivetexCore.WebSocketService {
+    get
+  }
+  public typealias Element = LivetexCore.WebSocketService
+  public typealias ArrayLiteralElement = LivetexCore.WebSocketService
+}
+public enum WebSocketError : Swift.Error, Swift.CustomStringConvertible {
+  case memory
+  case needMoreInput
+  case invalidHeader
+  case invalidAddress
+  case network(Swift.String)
+  case libraryError(Swift.String)
+  case payloadError(Swift.String)
+  case protocolError(Swift.String)
+  case invalidResponse(Swift.String)
+  case invalidCompressionOptions(Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public var details: Swift.String {
+    get
+  }
+}
+@objc public protocol WebSocketDelegate {
+  @objc func webSocketOpen()
+  @objc func webSocketClose(_ code: Swift.Int, reason: Swift.String, wasClean: Swift.Bool)
+  @objc func webSocketError(_ error: Foundation.NSError)
+  @objc optional func webSocketMessageText(_ text: Swift.String)
+  @objc optional func webSocketMessageData(_ data: Foundation.Data)
+  @objc optional func webSocketPong()
+  @objc optional func webSocketEnd(_ code: Swift.Int, reason: Swift.String, wasClean: Swift.Bool, error: Foundation.NSError?)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers open class WebSocket : ObjectiveC.NSObject {
+  @objc override dynamic open var hash: Swift.Int {
+    @objc get
+  }
+  @objc override dynamic open func isEqual(_ other: Any?) -> Swift.Bool
+  @objc convenience public init(_ url: Swift.String)
+  @objc convenience public init(url: Foundation.URL)
+  @objc convenience public init(_ url: Swift.String, subProtocols: [Swift.String])
+  @objc convenience public init(_ url: Swift.String, subProtocol: Swift.String)
+  @objc public init(request: Foundation.URLRequest, subProtocols: [Swift.String] = [])
+  @objc convenience override dynamic public init()
+  @objc open var url: Swift.String {
+    @objc get
+  }
+  @objc open var subProtocol: Swift.String {
+    @objc get
+  }
+  open var compression: LivetexCore.WebSocketCompression {
+    get
+    set
+  }
+  @objc open var allowSelfSignedSSL: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  open var services: LivetexCore.WebSocketService {
+    get
+    set
+  }
+  open var event: LivetexCore.WebSocketEvents {
+    get
+    set
+  }
+  @objc open var eventQueue: Dispatch.DispatchQueue? {
+    @objc get
+    @objc set
+  }
+  open var binaryType: LivetexCore.WebSocketBinaryType {
+    get
+    set
+  }
+  @objc open var readyState: LivetexCore.WebSocketReadyState {
+    @objc get
+  }
+  @objc open func open(_ url: Swift.String)
+  @objc open func open(nsurl url: Foundation.URL)
+  @objc open func open(_ url: Swift.String, subProtocols: [Swift.String])
+  @objc open func open(_ url: Swift.String, subProtocol: Swift.String)
+  @objc open func open(request: Foundation.URLRequest, subProtocols: [Swift.String] = [])
+  @objc open func open()
+  @objc open func close(_ code: Swift.Int = 1000, reason: Swift.String = "Normal Closure")
+  @objc open func send(_ message: Any)
+  @objc open func ping(_ message: Any)
+  @objc open func ping()
+  @objc deinit
+}
+public func == (lhs: LivetexCore.WebSocket, rhs: LivetexCore.WebSocket) -> Swift.Bool
+extension WebSocket {
+  @objc dynamic public var delegate: LivetexCore.WebSocketDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc dynamic public func send(text: Swift.String)
+  @objc dynamic public func send(data: Foundation.Data)
+}
+public struct Conversation : Swift.Decodable {
+  public let type: LivetexCore.ServiceEvent.EventType
+  public let status: LivetexCore.Conversation.Status
+  public let employeeStatus: LivetexCore.EmployeeStatus?
+  public let employee: LivetexCore.Employee?
+  public var isEmployeeEstimated: Swift.Bool {
+    get
+  }
+  public enum Status : Swift.String, Swift.Codable {
+    case unassigned
+    case inQueue
+    case assigned
+    case aiBot
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum LTError : Swift.Error {
+  case invalidURL
+  case responseValidationFailed
+  case requestFailed(Swift.Error)
+  case decodingFailed(Swift.Error)
+}
+public enum MessageContent : Swift.Decodable {
+  case text(Swift.String)
+  case file(LivetexCore.MessageAttachment)
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct MessageAttachment : Swift.Codable {
+  public let name: Swift.String
+  public let url: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct Employee : Swift.Codable {
+  public let name: Swift.String
+  public let position: Swift.String
+  public let rating: Swift.String?
+  public let avatarUrl: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum EmployeeStatus : Swift.String, Swift.Codable {
+  case online
+  case offline
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct Update : Swift.Decodable {
+  public let correlationId: Swift.String?
+  public let type: LivetexCore.ServiceEvent.EventType
+  public let createdAt: Foundation.Date
+  public let messages: [LivetexCore.Message]
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct Endpoint : Swift.Decodable {
+  public let ws: Swift.String
+  public let upload: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+}
+public class LivetexSessionService : LivetexCore.WebSocketDelegate {
+  public var onEvent: ((LivetexCore.ServiceEvent) -> Swift.Void)?
+  public var onConnect: (() -> Swift.Void)?
+  public var onDisconnect: (() -> Swift.Void)?
+  public var onError: ((Swift.Error) -> Swift.Void)?
+  public var eventQueue: Dispatch.DispatchQueue {
+    get
+    set
+  }
+  public var isConnected: Swift.Bool {
+    get
+  }
+  public init(token: LivetexCore.SessionToken)
+  public func connect()
+  public func disconnect()
+  public func sendEvent(_ event: LivetexCore.ClientEvent)
+  @objc public func webSocketOpen()
+  @objc public func webSocketMessageText(_ text: Swift.String)
+  @objc public func webSocketClose(_ code: Swift.Int, reason: Swift.String, wasClean: Swift.Bool)
+  @objc public func webSocketError(_ error: Foundation.NSError)
+  public func upload(data: Foundation.Data, fileName: Swift.String, mimeType: Swift.String, completionHandler: @escaping (Swift.Result<LivetexCore.MessageAttachment, LivetexCore.LTError>) -> Swift.Void)
+  @objc deinit
+}
+extension ServiceEvent {
+  public enum EventType : Swift.String, Swift.Codable {
+    case state
+    case result
+    case update
+    case employeeTyping
+    case departmentRequest
+    case attributesRequest
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+}
+public struct SessionToken : Swift.Decodable {
+  public let visitorToken: Swift.String
+  public let endpoints: LivetexCore.Endpoint
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct Attributes : Swift.Encodable {
+  public let name: Swift.String
+  public let phone: Swift.String
+  public let email: Swift.String
+  public var attributes: [Swift.String : Swift.String]
+  public init(name: Swift.String, phone: Swift.String, email: Swift.String, attributes: [Swift.String : Swift.String] = [:])
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum MessageItemType : Swift.String, Swift.Codable {
+  case text
+  case file
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct Departments : Swift.Decodable {
+  public let type: LivetexCore.ServiceEvent.EventType
+  public let departments: [LivetexCore.Department]
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct Department : Swift.Decodable {
+  public let id: Swift.String
+  public let name: Swift.String
+  public let order: Swift.Int
+  public init(from decoder: Swift.Decoder) throws
+}
+extension ClientEvent {
+  public enum Content : Swift.Encodable {
+    case text(Swift.String)
+    case file(LivetexCore.MessageAttachment)
+    case typing(Swift.String)
+    case rating(Swift.String)
+    case department(Swift.String)
+    case getHistory(Swift.String, Swift.Int)
+    case attributes(LivetexCore.Attributes)
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+}
+public struct Message : Swift.Decodable {
+  public let id: Swift.String
+  public let type: LivetexCore.MessageItemType
+  public let content: LivetexCore.MessageContent
+  public let creator: LivetexCore.Creator
+  public let createdAt: Foundation.Date
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum ServiceEvent : Swift.Decodable {
+  case attributes
+  case employeeTyping
+  case update(LivetexCore.Update)
+  case result(LivetexCore.ResultMessage)
+  case departments(LivetexCore.Departments)
+  case state(LivetexCore.Conversation)
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum Token {
+  case system(Swift.String)
+  case custom(Swift.String)
+}
+public class LivetexAuthService {
+  public init(token: LivetexCore.Token? = nil, deviceToken: Swift.String)
+  public func requestAuthorization(result: @escaping (Swift.Result<LivetexCore.SessionToken, LivetexCore.LTError>) -> Swift.Void)
+  @objc deinit
+}
+extension LivetexCore.Creator.CreatorType : Swift.Equatable {}
+extension LivetexCore.Creator.CreatorType : Swift.Hashable {}
+extension LivetexCore.Creator.CreatorType : Swift.RawRepresentable {}
+extension LivetexCore.ClientEvent.EventType : Swift.Equatable {}
+extension LivetexCore.ClientEvent.EventType : Swift.Hashable {}
+extension LivetexCore.ClientEvent.EventType : Swift.RawRepresentable {}
+extension LivetexCore.ResponseError : Swift.Equatable {}
+extension LivetexCore.ResponseError : Swift.Hashable {}
+extension LivetexCore.ResponseError : Swift.RawRepresentable {}
+extension LivetexCore.WebSocketBinaryType : Swift.Equatable {}
+extension LivetexCore.WebSocketBinaryType : Swift.Hashable {}
+extension LivetexCore.WebSocketReadyState : Swift.Equatable {}
+extension LivetexCore.WebSocketReadyState : Swift.Hashable {}
+extension LivetexCore.WebSocketReadyState : Swift.RawRepresentable {}
+extension LivetexCore.Conversation.Status : Swift.Equatable {}
+extension LivetexCore.Conversation.Status : Swift.Hashable {}
+extension LivetexCore.Conversation.Status : Swift.RawRepresentable {}
+extension LivetexCore.EmployeeStatus : Swift.Equatable {}
+extension LivetexCore.EmployeeStatus : Swift.Hashable {}
+extension LivetexCore.EmployeeStatus : Swift.RawRepresentable {}
+extension LivetexCore.ServiceEvent.EventType : Swift.Equatable {}
+extension LivetexCore.ServiceEvent.EventType : Swift.Hashable {}
+extension LivetexCore.ServiceEvent.EventType : Swift.RawRepresentable {}
+extension LivetexCore.MessageItemType : Swift.Equatable {}
+extension LivetexCore.MessageItemType : Swift.Hashable {}
+extension LivetexCore.MessageItemType : Swift.RawRepresentable {}

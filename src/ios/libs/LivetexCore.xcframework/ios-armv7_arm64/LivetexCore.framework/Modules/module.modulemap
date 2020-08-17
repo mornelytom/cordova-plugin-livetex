@@ -1,0 +1,11 @@
+framework module LivetexCore {
+  umbrella header "LivetexCore.h"
+
+  export *
+  module * { export * }
+}
+
+module LivetexCore.Swift {
+    header "LivetexCore-Swift.h"
+    requires objc
+}

@@ -272,4 +272,77 @@
     </js-module>
   </platform>
 
+  <!-- ios -->
+  <platform name="ios">
+
+    <config-file target="config.xml" parent="/*">
+      <feature name="Livetex">
+        <param name="ios-package" value="Livetex" />
+      </feature>
+    </config-file>
+    <config-file target="*-Info.plist" parent="UIBackgroundModes">
+      <array>
+        <string>remote-notification</string>
+      </array>
+    </config-file>
+    <config-file target="*-Debug.plist" parent="aps-environment">
+      <string>development</string>
+    </config-file>
+    <config-file target="*-Release.plist" parent="aps-environment">
+      <string>production</string>
+    </config-file>
+
+    <podspec>
+        <config>
+            <source url="https://github.com/CocoaPods/Specs.git" />
+        </config>
+        <pods use-frameworks="true">
+            <pod name="MessageKit" />
+            <pod name="Kingfisher" />
+            <pod name="BFRImageViewer" />
+        </pods>
+    </podspec>
+
+    <lib-file src="src/ios/libs/LivetexCore.xcframework" arch="x86" framework="true" />
+    <lib-file src="src/ios/libs/LivetexCore.xcframework" arch="arm" framework="true" />
+    <framework src="src/ios/libs/LivetexCore.xcframework" embed="true" custom="true" />
+
+    <source-file src="src/ios/src/Livetex.swift" />
+    <source-file src="src/ios/src/AppDelegate/AppDeletegate+livetex.swift" />
+    <source-file src="src/ios/src/Extensions/Data/Data+Hex.swift" />
+    <source-file src="src/ios/src/Extensions/DateFormatter/DateFormatter+Factory.swift" />
+    <source-file src="src/ios/src/Extensions/UIAlertController/UIAlertController+Factory.swift" />
+    <source-file src="src/ios/src/Extensions/UIColor/UIColor+Factory.swift" />
+    <source-file src="src/ios/src/Extensions/UIColor/UIColor+Hex.swift" />
+    <source-file src="src/ios/src/Extensions/UIEdgeInsets/UIEdgeInsets+Factory.swift" />
+    <source-file src="src/ios/src/Extensions/UIImage/UIImage+Asset.swift" />
+    <source-file src="src/ios/src/Layout/CustomMessagesCollectionViewLayoutAttributes.swift" />
+    <source-file src="src/ios/src/Layout/CustomMessagesFlowLayout.swift" />
+    <source-file src="src/ios/src/Layout/CustomTextMessageSizeCalculator.swift" />
+    <source-file src="src/ios/src/Layout/FollowTextMessageSizeCalculator.swift" />
+    <source-file src="src/ios/src/Layout/SystemMessageSizeCalculator.swift" />
+    <source-file src="src/ios/src/LivetexSettings/DebouncedFunction.swift" />
+    <source-file src="src/ios/src/LivetexSettings/LivetexSettings.swift" />
+    <source-file src="src/ios/src/ViewControllers/ChatViewController.swift" />
+    <source-file src="src/ios/src/ViewModel/ChatViewModel+Messages.swift" />
+    <source-file src="src/ios/src/ViewModel/ChatViewModel.swift" />
+    <source-file src="src/ios/src/Views/EstimationView.swift" />
+    <source-file src="src/ios/src/Views/FollowMessageView.swift" />
+    <source-file src="src/ios/src/Views/FollowTextMessageCollectionViewCell.swift" />
+    <source-file src="src/ios/src/Views/MessageInputBarView.swift" />
+    <source-file src="src/ios/src/Views/OperatorAvatarView.swift" />
+    <source-file src="src/ios/src/Views/SystemMessageCollectionViewCell.swift" />
+    <source-file src="src/ios/src/Views/TextMessageCollectionViewCell.swift" />
+    <source-file src="src/ios/src/Views/TitleView.swift" />
+    <source-file src="src/ios/res/LivetexAssets.swift" />
+
+    <resource-file src="src/ios/res/Livetex.lproj" />
+    <resource-file src="src/ios/res/LivetexAssets.xcassets" />
+
+    <js-module src="www/cordova-plugins-livetex.js" name="livetex">
+      <merges target="cordova.plugins.livetex" />
+    </js-module>
+
+  </platform>
+
 </plugin>
