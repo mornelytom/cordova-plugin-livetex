@@ -248,11 +248,6 @@
         <service android:enabled="true" android:exported="false" android:name="sdk.service.NotificationVisitorService">
         </service>
         <service android:name="ru.simdev.livetex.services.DownloadService" />
-        <service android:exported="false" android:name="ru.simdev.livetex.firebase.FirebaseMessageReceiver">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
     </config-file>
     
     <config-file target="AndroidManifest.xml" parent="/*">
