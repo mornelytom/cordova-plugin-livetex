@@ -20,7 +20,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
 
     private let avatarView = OperatorAvatarView()
 
-    private let viewModel = ChatViewModel()
+    private let viewModel = ChatViewModel.shared
 
     private let estimationView = EstimationView()
 
@@ -108,6 +108,10 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         viewModel.onLoadMoreMessages = { [weak self] newMessages in
             self?.viewModel.messages.insert(contentsOf: newMessages, at: 0)
             self?.messagesCollectionView.reloadDataAndKeepOffset()
+        }
+
+        viewModel.onMessageCallback = {
+            
         }
 
         viewModel.onMessagesReceived = { [weak self] newMessages in

@@ -10,7 +10,9 @@ import UIKit
 import MessageKit
 import LivetexCore
 
-class ChatViewModel {
+
+@objc(ChatViewModel) class ChatViewModel : NSObject {
+    @objc(shared) static let shared = ChatViewModel()
 
     var onDepartmentReceived: (([Department]) -> Void)?
     var onLoadMoreMessages: (([ChatMessage]) -> Void)?
@@ -18,9 +20,11 @@ class ChatViewModel {
     var onDialogStateReceived: ((Conversation) -> Void)?
     var onAttributesReceived: (() -> Void)?
     var onTypingReceived: (() -> Void)?
+    var onMessageCallback: (() -> Void)?
 
     var followMessage: String?
     var messages: [ChatMessage] = []
+    var lastSentDate: Date?
 
     var user = Recipient(senderId: UUID().uuidString, displayName: "")
 
@@ -39,16 +43,16 @@ class ChatViewModel {
 
     // MARK: - Initialization
 
-    init() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(applicationWillEnterForeground),
-                                               name: UIApplication.willEnterForegroundNotification,
-                                               object: nil)
+    override private init() {
+        //NotificationCenter.default.addObserver(self,
+        //                                       selector: #selector(applicationWillEnterForeground),
+        //                                       name: UIApplication.willEnterForegroundNotification,
+        //                                       object: nil)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(applicationDidRegisterForRemoteNotifications(_:)),
-                                               name: UIApplication.didRegisterForRemoteNotifications,
-                                               object: nil)
+        //NotificationCenter.default.addObserver(self,
+        //                                       selector: #selector(applicationDidRegisterForRemoteNotifications(_:)),
+        //                                       name: UIApplication.didRegisterForRemoteNotifications,
+        //                                       object: nil)
     }
 
     // MARK: - Configuration
@@ -77,6 +81,7 @@ class ChatViewModel {
         }
 
         sessionService?.connect()
+        NSLog("Livetex connect")
     }
 
     func loadMoreMessagesIfNeeded() {
@@ -91,17 +96,23 @@ class ChatViewModel {
 
     // MARK: - Application Lifecycle
 
-    @objc private func applicationDidEnterBackground() {
+    @objc(applicationDidEnterBackground) func applicationDidEnterBackground() {
         sessionService?.disconnect()
     }
 
-    @objc private func applicationWillEnterForeground() {
+    @objc(applicationWillEnterForeground) func applicationWillEnterForeground() {
+        NSLog("livetex entering foreground")
         sessionService?.connect()
     }
 
-    @objc private func applicationDidRegisterForRemoteNotifications(_ notification: Notification) {
+    /* @objc func applicationDidRegisterForRemoteNotifications(_ notification: Notification) {
         let deviceToken = notification.object as? String
         requestAuthentication(deviceToken: deviceToken ?? "")
+    } */
+    @objc(applicationDidRegisterForRemoteNotifications:) func applicationDidRegisterForRemoteNotifications(deviceToken: String) {
+        //let deviceToken = notification.object as? String
+        requestAuthentication(deviceToken: deviceToken ?? "")
+        NSLog("livetex requestAuthentication")
     }
 
     // MARK: - Session
@@ -188,6 +199,11 @@ class ChatViewModel {
                     self.onLoadMoreMessages?(newMessages)
                 } else {
                     self.onMessagesReceived?(newMessages)
+                    if (newMessages.last != nil && self.lastSentDate ?? Date(timeIntervalSince1970: 0) < newMessages.last!.sentDate) {
+                        self.onMessageCallback?()
+                        NSLog("Messages difference: \(self.lastSentDate) \(newMessages.last!.sentDate)")
+                        self.lastSentDate = newMessages.last!.sentDate
+                    }
                     self.isContentLoaded = true
                 }
             }
