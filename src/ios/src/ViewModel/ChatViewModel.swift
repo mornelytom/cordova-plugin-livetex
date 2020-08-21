@@ -44,15 +44,7 @@ import LivetexCore
     // MARK: - Initialization
 
     override private init() {
-        //NotificationCenter.default.addObserver(self,
-        //                                       selector: #selector(applicationWillEnterForeground),
-        //                                       name: UIApplication.willEnterForegroundNotification,
-        //                                       object: nil)
-
-        //NotificationCenter.default.addObserver(self,
-        //                                       selector: #selector(applicationDidRegisterForRemoteNotifications(_:)),
-        //                                       name: UIApplication.didRegisterForRemoteNotifications,
-        //                                       object: nil)
+        super.init()
     }
 
     // MARK: - Configuration
@@ -201,7 +193,6 @@ import LivetexCore
                     self.onMessagesReceived?(newMessages)
                     if (newMessages.last != nil && self.lastSentDate ?? Date(timeIntervalSince1970: 0) < newMessages.last!.sentDate) {
                         self.onMessageCallback?()
-                        NSLog("Messages difference: \(self.lastSentDate) \(newMessages.last!.sentDate)")
                         self.lastSentDate = newMessages.last!.sentDate
                     }
                     self.isContentLoaded = true
