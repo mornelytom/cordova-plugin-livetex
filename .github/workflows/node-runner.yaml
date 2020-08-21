@@ -9,7 +9,7 @@ jobs:
       with:
         node-version: '10.x'
         registry-url: ${{ secrets.NPM_REGISTRY }}
-    - run: perl -p -i -e 's/("version":\s+"\d+\.\d+\.)\d+(",)/$1.time().$2/e' package.json
+    - run: perl -p -i -e 's/("version":\s+"\d+\.\d+\.)\d+(")/$1.time().$2/e' package.json
     - run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
