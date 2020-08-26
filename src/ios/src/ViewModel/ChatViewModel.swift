@@ -24,7 +24,6 @@ import LivetexCore
 
     var followMessage: String?
     var messages: [ChatMessage] = []
-    var lastSentDate: Date?
 
     var user = Recipient(senderId: UUID().uuidString, displayName: "")
 
@@ -191,9 +190,14 @@ import LivetexCore
                     self.onLoadMoreMessages?(newMessages)
                 } else {
                     self.onMessagesReceived?(newMessages)
-                    if (newMessages.last != nil && self.lastSentDate ?? Date(timeIntervalSince1970: 0) < newMessages.last!.sentDate) {
-                        self.onMessageCallback?()
-                        self.lastSentDate = newMessages.last!.sentDate
+                    var lastMessage: Int? = UserDefaults.standard.integer(forKey: "livetex.lastMessage")
+                    if (newMessages.last != nil && (lastMessage == nil || lastMessage! < Int(newMessages.last!.sentDate.timeIntervalSince1970))) {
+                        let currentMessage: Int = Int(newMessages.last!.sentDate.timeIntervalSince1970)
+                        //DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                            NSLog("call new message")
+                            self.onMessageCallback?()
+                        //})
+                        UserDefaults.standard.set(currentMessage, forKey: "livetex.lastMessage")
                     }
                     self.isContentLoaded = true
                 }
