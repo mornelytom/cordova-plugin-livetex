@@ -9,6 +9,7 @@
 import UIKit
 
 enum LivetexAsset: String {
+    case back = "back"
     case checkmark = "checkmark"
     case attachment = "attach"
     case account = "account"

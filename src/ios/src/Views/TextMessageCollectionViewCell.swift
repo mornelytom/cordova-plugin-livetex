@@ -70,7 +70,8 @@ class TextMessageCollectionViewCell: TextMessageCell {
             return
         }
 
-        timeLabel.textColor = dataSource.isFromCurrentSender(message: message) ? .lightText : .lightGray
+        // timeLabel.textColor = dataSource.isFromCurrentSender(message: message) ? .lightText : .lightGray
+        timeLabel.textColor = .lightGray
         statusImageView.image = dataSource.isFromCurrentSender(message: message) ? UIImage(asset: .checkmark) : nil
     }
 

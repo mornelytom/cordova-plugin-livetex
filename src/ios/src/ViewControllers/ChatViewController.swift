@@ -43,7 +43,8 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         configureInputBar()
         configureViewModel()
         configureNavigationItem()
-        configureEstimationView()
+        // configureEstimationView()
+        NotificationCenter.default.post(name: Notification.Name("ChatViewLoaded"), object: nil)
     }
 
     override func viewDidLayoutSubviews() {
@@ -110,9 +111,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
             self?.messagesCollectionView.reloadDataAndKeepOffset()
         }
 
-        viewModel.onMessageCallback = {
-            
-        }
+        viewModel.onMessageCallback = {}
 
         viewModel.onMessagesReceived = { [weak self] newMessages in
             guard let self = self else {
@@ -127,6 +126,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
                     self.messagesCollectionView.insertSections(indexSet)
                 }, completion: { _ in
                     self.messagesCollectionView.scrollToBottom(animated: true)
+                    NotificationCenter.default.post(name: Notification.Name("ChatDrain"), object: nil)
                 })
             }
 
@@ -145,7 +145,11 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         }
 
         viewModel.onDialogStateReceived = { [weak self] dialog in
-            self?.titleView.title = dialog.employee?.name
+            if (dialog.employee != nil) {
+                self?.titleView.title = "Онлайн чат: " + dialog.employee!.name
+            } else {
+                self?.titleView.title = "Онлайн чат"
+            }
             self?.titleView.subtitle = dialog.employeeStatus?.rawValue
             self?.avatarView.setImage(with: URL(string: dialog.employee?.avatarUrl ?? ""))
 
@@ -158,6 +162,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
             self?.typingFunction.call()
             self?.setTypingIndicatorViewHidden(false, animated: true, completion: { _ in
                 self?.messagesCollectionView.scrollToBottom(animated: true)
+                NotificationCenter.default.post(name: Notification.Name("ChatDrain"), object: nil)
             })
         }
 
@@ -228,9 +233,22 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         maintainPositionOnKeyboardFrameChanged = true
     }
 
+    @objc(closeChat)
+    private func closeChat() {
+        NotificationCenter.default.post(name: Notification.Name("ChatClose"), object: nil)
+    }
+
     private func configureNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarView)
         navigationItem.titleView = titleView
+        let backBtn = UIBarButtonItem()
+        var scale: CGFloat = 0.5
+        var image: UIImage = UIImage.scale(image: UIImage(asset: .back)!, by: scale)!
+        backBtn.image = image
+        backBtn.tintColor = UIColor.Theme.white
+        backBtn.action = #selector(closeChat)
+        backBtn.target = self
+        navigationItem.leftBarButtonItem = backBtn
     }
 
     private func configureInputBar() {
@@ -291,6 +309,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         }
 
         messagesCollectionView.scrollToBottom()
+        NotificationCenter.default.post(name: Notification.Name("ChatDrain"), object: nil)
         viewModel.sendEvent(ClientEvent(.typing(text)))
     }
 
@@ -457,15 +476,19 @@ extension ChatViewController: MessagesDisplayDelegate {
     func textColor(for message: MessageType,
                    at indexPath: IndexPath,
                    in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .white : .darkText
+        return .darkText
+        // return isFromCurrentSender(message: message) ? .white : .darkText
     }
 
     func detectorAttributes(for detector: DetectorType,
                             and message: MessageType,
                             at indexPath: IndexPath) -> [NSAttributedString.Key : Any] {
-        return [.foregroundColor: isFromCurrentSender(message: message) ? UIColor.white : UIColor.black,
+        return [.foregroundColor: UIColor.black,
                 .underlineStyle: NSUnderlineStyle.single.rawValue,
-                .underlineColor: isFromCurrentSender(message: message) ? UIColor.white : UIColor.black]
+                .underlineColor: UIColor.black]
+        // return [.foregroundColor: isFromCurrentSender(message: message) ? UIColor.white : UIColor.black,
+         //       .underlineStyle: NSUnderlineStyle.single.rawValue,
+         //       .underlineColor: isFromCurrentSender(message: message) ? UIColor.white : UIColor.black]
     }
 
     func messageStyle(for message: MessageType,

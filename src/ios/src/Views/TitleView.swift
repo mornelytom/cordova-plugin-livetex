@@ -8,6 +8,7 @@
 
 import UIKit
 
+ 
 class TitleView: UIView {
 
     var title: String? {
@@ -37,17 +38,17 @@ class TitleView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .semibold)
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = UIColor.Theme.white
         label.textAlignment = .center
-        label.textColor = .black
         return label
     }()
 
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
+        label.textColor = UIColor.Theme.white
         label.textAlignment = .center
-        label.textColor = .black
         label.isHidden = true
         return label
     }()

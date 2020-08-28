@@ -31,7 +31,6 @@ BOOL livetexSwapped;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSLog(@"livetex: installing swizzle");
         Class class = [self class];
 
         SEL originalSelector = @selector(init);
@@ -47,13 +46,11 @@ BOOL livetexSwapped;
                         method_getTypeEncoding(swizzled));
 
         if (didAddMethod) {
-            NSLog(@"livetex swizzling method");
             class_replaceMethod(class,
                                 swizzledSelector,
                                 method_getImplementation(original),
                                 method_getTypeEncoding(original));
         } else {
-            NSLog(@"livetex exchanging method");
             method_exchangeImplementations(original, swizzled);
         }
     });
@@ -61,7 +58,6 @@ BOOL livetexSwapped;
 
 - (AppDelegate *)livetex_swizzled_init
 {
-    NSLog(@"livetex swizzled init");
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
 
@@ -78,20 +74,19 @@ BOOL livetexSwapped;
 
 - (void)livetexOnApplicationDidBecomeActive:(NSNotification *)notification
 {
-    NSLog(@"livetex onApplicationDidBecomeActive");
     if (chatViewModel) {
-        [chatViewModel applicationWillEnterForeground];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [chatViewModel applicationWillEnterForeground];
+        });
     }
     if (livetexFromPush) {
         livetexFromPush = FALSE;
         [self showChatDialog];
-        NSLog(@"livetex opened from push notification");
     }
 }
 
 - (void)livetexOnApplicationDidEnterBackground:(NSNotification *)notification
 {
-    NSLog(@"livetex onApplicationDidEnterBackground");
     if (chatViewModel) {
         [chatViewModel applicationDidEnterBackground];
     }
@@ -103,7 +98,6 @@ BOOL livetexSwapped;
 - (void)livetexOnTokenRefresh {
 #if !TARGET_IPHONE_SIMULATOR
     // A rotation of the registration tokens is happening, so the app needs to request a new token.
-    NSLog(@"The FCM registration token needs to be changed.");
     [[FIRInstanceID instanceID] instanceIDWithHandler:^(FIRInstanceIDResult * _Nullable result, NSError * _Nullable error) {
         if (error != nil) {
             NSLog(@"Error fetching remote instance ID: %@", error);
@@ -146,23 +140,22 @@ BOOL livetexSwapped;
 
 - (void)hideChatDialog {
     Livetex *livetex = [self getCommandInstance:@"Livetex"];
-    [livetex hideChat];
+    [livetex hideChat:false];
 }
 
 - (void)livetexApplication:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    NSLog(@"livetex Received Remote notification");
     if (livetexSwapped) {
         [self livetexApplication:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
     }
     if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"]) {
-        NSLog(@"!!!! chat message!!! ");
         if(application.applicationState != UIApplicationStateActive) {
             livetexFromPush = TRUE;
         } else {
             // [self showChatDialog];  // do not open chat dialog while running
-            NSLog(@"received push notification while foreground");
             livetexFromPush = FALSE;
+            Livetex *livetex = [self getCommandInstance:@"Livetex"];
+            [livetex onPush];
         }
     } else {
         livetexFromPush = FALSE;
@@ -174,14 +167,12 @@ BOOL livetexSwapped;
 {
     // this = self;
     if ([[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)]) {
-        NSLog(@"livetex swapping listener");
         Method original, swizzled;
         original = class_getInstanceMethod([self class], @selector(livetexApplication:didReceiveRemoteNotification:fetchCompletionHandler:));
         swizzled = class_getInstanceMethod([[[UIApplication sharedApplication] delegate] class], @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:));
         method_exchangeImplementations(original, swizzled);
         livetexSwapped = TRUE;
     } else {
-        NSLog(@"livetex adding listener");
         class_addMethod([[[UIApplication sharedApplication] delegate] class], @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:), class_getMethodImplementation([self class], @selector(livetexApplication:didReceiveRemoteNotification:fetchCompletionHandler:)), nil);
         livetexSwapped = FALSE;
     }
@@ -190,7 +181,6 @@ BOOL livetexSwapped;
 - (void)initLivetexPushNotifications {
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([FIRApp defaultApp] == nil) {
-            NSLog(@"configuring Firebase");
             [FIRApp configure];
         }
         [[NSNotificationCenter defaultCenter]
@@ -211,7 +201,6 @@ BOOL livetexSwapped;
         [self livetexSetupPushHandlers];
     });
     if (![self livetexPermissionState]) {
-        NSLog(@"push notifications are not registered");
         if ([UNUserNotificationCenter class] != nil) {
           // iOS 10 or later
           // For iOS 10 display notification (sent via APNS)
@@ -224,14 +213,9 @@ BOOL livetexSwapped;
                 if (granted && !error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                            [[UIApplication sharedApplication] registerForRemoteNotifications];
-                           NSLog(@"registered for remote push");
                        });
-                } else {
-                    NSLog(@"not granted for iOS");
                 }
               }];
-        } else {
-            NSLog(@"not supported iOS version for notifications");
         }
     }
 }
@@ -248,7 +232,6 @@ BOOL livetexSwapped;
 
 - (void)initLivetexCore:(NSNotification *)notification
 {
-    NSLog(@"initLivetexCore");
     livetexFromPush = FALSE;
     chatViewModel = [ChatViewModel shared];
     [self initLivetexPushNotifications];
@@ -259,7 +242,6 @@ BOOL livetexSwapped;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidFinishLaunchingNotification object:nil];
-    NSLog(@"dealloc");
 }
 
 @end

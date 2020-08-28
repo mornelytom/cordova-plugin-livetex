@@ -40,6 +40,8 @@ import LivetexCore
 
     private let settings = LivetexSettings()
 
+    public var lastMessage: Int?
+
     // MARK: - Initialization
 
     override private init() {
@@ -49,6 +51,7 @@ import LivetexCore
     // MARK: - Configuration
 
     private func requestAuthentication(deviceToken: String) {
+        // settings.visitorToken = nil
         let loginService = LivetexAuthService(token: settings.visitorToken.map { .system($0) },
                                                deviceToken: deviceToken)
 
@@ -92,7 +95,6 @@ import LivetexCore
     }
 
     @objc(applicationWillEnterForeground) func applicationWillEnterForeground() {
-        NSLog("livetex entering foreground")
         sessionService?.connect()
     }
 
@@ -190,14 +192,10 @@ import LivetexCore
                     self.onLoadMoreMessages?(newMessages)
                 } else {
                     self.onMessagesReceived?(newMessages)
-                    var lastMessage: Int? = UserDefaults.standard.integer(forKey: "livetex.lastMessage")
+                    let lastMessage: Int? = UserDefaults.standard.integer(forKey: "livetex.lastMessage")
                     if (newMessages.last != nil && (lastMessage == nil || lastMessage! < Int(newMessages.last!.sentDate.timeIntervalSince1970))) {
-                        let currentMessage: Int = Int(newMessages.last!.sentDate.timeIntervalSince1970)
-                        //DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
-                            NSLog("call new message")
-                            self.onMessageCallback?()
-                        //})
-                        UserDefaults.standard.set(currentMessage, forKey: "livetex.lastMessage")
+                        self.lastMessage = Int(newMessages.last!.sentDate.timeIntervalSince1970)
+                        self.onMessageCallback?()
                     }
                     self.isContentLoaded = true
                 }

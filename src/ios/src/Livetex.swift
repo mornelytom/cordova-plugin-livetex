@@ -9,37 +9,96 @@
 import LivetexCore
 
 
+class UINavigationControllerLight: UINavigationController {
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            if traitCollection.userInterfaceStyle == .light {
+                return .lightContent
+            } else {
+                return .darkContent
+            }
+        } else {
+            return .lightContent
+        }
+    }
+
+}
+
+
 @objc(Livetex) class Livetex : CDVPlugin {
     var chatViewController: ChatViewController?
+    var navController: UINavigationController?
     private var callbackId: String?
+    private var nickname: String = "Guest"
 
     @objc(init:)
     func initilize(command: CDVInvokedUrlCommand) {
-        NSLog("init Livetex")
         let storyboard = UIStoryboard(name: "Livetex", bundle: nil)
-        chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-        var chatViewModel: ChatViewModel = ChatViewModel.shared
-        chatViewModel.onMessageCallback = {}
+        chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
+        self.navController = UINavigationControllerLight(rootViewController: self.chatViewController!)
+        self.navController?.navigationBar.isTranslucent = false
+        self.navController?.navigationBar.barTintColor = UIColor(hex: 0x6D3AF7, alpha: 1)
+        self.navController?.modalPresentationStyle = .fullScreen
+        NotificationCenter.default.addObserver(self, selector: #selector(self.chatExit(notification:)), name: Notification.Name("ChatClose"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.chatLoaded(notification:)), name: Notification.Name("ChatViewLoaded"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.chatDrain(notification:)), name: Notification.Name("ChatDrain"), object: nil)
+    }
+
+    @objc func chatDrain(notification: Notification) {
+        let chatViewModel: ChatViewModel = ChatViewModel.shared
+        UserDefaults.standard.set(chatViewModel.lastMessage, forKey: "livetex.lastMessage")
+        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { (notifications) in
+            var identifiers: Array<String> = []
+            for notification in notifications {
+                if (notification.request.content.categoryIdentifier == "chat_message") {
+                    identifiers.append(notification.request.identifier)
+                }
+            }
+            if (identifiers.count > 0) {
+                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: identifiers)
+            }
+        })
+    }
+
+    @objc func chatExit(notification: Notification) {
+        self.hideChat(animated: true)
     }
 
     @objc(showChat)
     func showChat() {
-        if (!self.chatViewController!.isBeingPresented) {
-            var chatViewModel: ChatViewModel = ChatViewModel.shared
-            self.viewController.present(self.chatViewController!, animated: true)
+        if (!self.navController!.isBeingPresented) {
+            let chatViewModel: ChatViewModel = ChatViewModel.shared
+            self.viewController.present(self.navController!, animated: true)
             chatViewModel.applicationWillEnterForeground()
         }
     }
 
-    private func initCallback() {
-        var chatViewModel: ChatViewModel = ChatViewModel.shared
+    @objc(onPush)
+    func onPush() {
+        let chatViewModel: ChatViewModel = ChatViewModel.shared
+        chatViewModel.onMessageCallback?()
+    }
+
+    func localNotify() {
+        let result: CDVPluginResult? = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "receive")
+        result?.setKeepCallbackAs(true)
+        self.commandDelegate!.send(result, callbackId: self.callbackId)
+    }
+
+    @objc func chatLoaded(notification: Notification) {
+        let chatViewModel: ChatViewModel = ChatViewModel.shared
         chatViewModel.onMessageCallback = {
-            NSLog("new message")
-            if (self.callbackId != nil && self.topMostController() != self.chatViewController!) {
-                var result: CDVPluginResult? = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "receive")
-                result?.setKeepCallbackAs(true)
-                self.commandDelegate!.send(result, callbackId: self.callbackId)
+            if (self.callbackId != nil && self.topMostController() != self.navController!) {
+                self.localNotify()
             }
+        }
+        chatViewModel.onAttributesReceived = {
+            let attributes = LivetexCore.Attributes(name: self.nickname,
+                                        phone: "",
+                                        email: "")
+            chatViewModel.user.displayName = self.nickname
+            chatViewModel.sendEvent(LivetexCore.ClientEvent(.attributes(attributes)))
         }
     }
 
@@ -57,44 +116,46 @@ import LivetexCore
         return topController
     }
 
-    @objc(hideChat)
-    func hideChat() {
-        NSLog("hidding chat")
-        if (self.topMostController() == self.chatViewController!) {
-            NSLog("presented")
-            DispatchQueue.main.async {
-                self.viewController.dismiss(animated: false)
+    @objc(hideChat:)
+    func hideChat(animated: Bool = false) {
+        if (self.topMostController() == self.navController!) {
+            if (animated) {
+                self.viewController.dismiss(animated: true)
+                let chatViewModel: ChatViewModel = ChatViewModel.shared
+                chatViewModel.applicationWillEnterForeground()
+            } else {
+                DispatchQueue.main.async {
+                    self.viewController.dismiss(animated: false)
+                }
             }
         }
     }
 
     @objc(open:)
     func open(command: CDVInvokedUrlCommand) {
-        NSLog("open Livetex")
-        var nickname = command.arguments[0] as? String ?? ""
-        var chatViewModel: ChatViewModel = ChatViewModel.shared
-        self.viewController.present(self.chatViewController!, animated: true)
-        chatViewModel.onAttributesReceived = {
-            let attributes = LivetexCore.Attributes(name: nickname,
-                                        phone: "",
-                                        email: "")
-            chatViewModel.user.displayName = nickname
-            chatViewModel.sendEvent(LivetexCore.ClientEvent(.attributes(attributes)))
-        }
-        self.initCallback()
+        self.nickname = command.arguments[0] as? String ?? "Guest"
+        let chatViewModel: ChatViewModel = ChatViewModel.shared
+
+        self.viewController.present(self.navController!, animated: true, completion: nil)
+
         chatViewModel.applicationWillEnterForeground()
     }
 
     @objc(callback:)
     func callback(command: CDVInvokedUrlCommand) {
-        NSLog("setting callback Livetex")
         self.callbackId = command.callbackId
-        self.initCallback()
+        let lastMessage: Int? = UserDefaults.standard.integer(forKey: "livetex.lastMessage")
+        let chatViewModel: ChatViewModel = ChatViewModel.shared
+        if (chatViewModel.lastMessage != nil && lastMessage !=  nil && lastMessage! < chatViewModel.lastMessage!) {
+            self.localNotify()
+        }
     }
 
     @objc(destroy:)
     func destroy(command: CDVInvokedUrlCommand) {
-        NSLog("destroy Livetex")
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("ChatClose"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("ChatViewLoaded"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("ChatDrain"), object: nil)
     }
 }
 

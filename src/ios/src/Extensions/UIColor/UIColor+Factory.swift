@@ -10,8 +10,8 @@ import UIKit
 
 extension UIColor {
 
-    static let messageBlue: UIColor = UIColor(hex: 0x4c7ad0)
+    static let messageBlue: UIColor = UIColor(hex: 0xE1F0FF)
 
-    static let messageGray: UIColor = UIColor(hex: 0xf5f5f5)
+    static let messageGray: UIColor = UIColor(hex: 0xF2F5FB)
 
 }
