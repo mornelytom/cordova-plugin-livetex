@@ -321,8 +321,10 @@
     <source-file src="src/ios/src/Extensions/UIAlertController/UIAlertController+Factory.swift" />
     <source-file src="src/ios/src/Extensions/UIColor/UIColor+Factory.swift" />
     <source-file src="src/ios/src/Extensions/UIColor/UIColor+Hex.swift" />
+    <source-file src="src/ios/src/Extensions/UIColor/UIColor+Theme.swift" />
     <source-file src="src/ios/src/Extensions/UIEdgeInsets/UIEdgeInsets+Factory.swift" />
     <source-file src="src/ios/src/Extensions/UIImage/UIImage+Asset.swift" />
+    <source-file src="src/ios/src/Extensions/UIImage/UIImage+Resize.swift" />
     <source-file src="src/ios/src/Layout/CustomMessagesCollectionViewLayoutAttributes.swift" />
     <source-file src="src/ios/src/Layout/CustomMessagesFlowLayout.swift" />
     <source-file src="src/ios/src/Layout/CustomTextMessageSizeCalculator.swift" />
