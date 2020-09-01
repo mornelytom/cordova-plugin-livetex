@@ -136,7 +136,19 @@ class UINavigationControllerLight: UINavigationController {
         self.nickname = command.arguments[0] as? String ?? "Guest"
         let chatViewModel: ChatViewModel = ChatViewModel.shared
 
-        self.viewController.present(self.navController!, animated: true, completion: nil)
+        let topController: UIViewController? = self.topMostController()
+        if (self.navController!.isBeingPresented || topController == self.navController!) {
+            NSLog("chat already opened")
+        } else {
+            if (self.viewController != topController) {
+                NSLog("livetex: closing all modal windows")
+                self.viewController.dismiss(animated: false, completion: {
+                    self.viewController.present(self.navController!, animated: true, completion: nil)
+                })
+                return
+            }
+            self.viewController.present(self.navController!, animated: true, completion: nil)
+        }
 
         chatViewModel.applicationWillEnterForeground()
     }
