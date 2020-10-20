@@ -3,6 +3,7 @@ package ru.simdev.livetex.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -164,6 +165,10 @@ public abstract class BaseFragment extends Fragment {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
         getFragmentEnvironment().getActionBar().setDisplayShowCustomEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getFragmentEnvironment().getActionBar().setElevation(10);
+        }
 
         ColorDrawable colorDrawable = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.main));
         getFragmentEnvironment().getActionBar().setBackgroundDrawable(colorDrawable);

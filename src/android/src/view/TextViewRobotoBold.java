@@ -18,7 +18,7 @@ public class TextViewRobotoBold extends AppCompatTextView {
     }
 
     private void init(Context context) {
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "www/assets/fonts/Montserrat/Montserrat-Medium.ttf");
+        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "www/assets/fonts/Montserrat/Montserrat-SemiBold.ttf");
         setTypeface(myTypeface);
     }
 }
