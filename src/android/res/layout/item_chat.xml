@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <ru.simdev.livetex.view.TextViewRobotoBold
-                    android:textColor="@color/main"
+                    android:textColor="@color/chat_white"
                     android:id="@+id/tvOperatorName"
                     android:text=""
                     android:layout_marginRight="10dp"

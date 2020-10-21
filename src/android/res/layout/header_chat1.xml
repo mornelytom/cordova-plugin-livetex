@@ -14,11 +14,11 @@
         android:layout_width="20dp"
         android:layout_height="20dp" />
 
-    <ru.simdev.livetex.view.TextViewRobotoRegular
+    <ru.simdev.livetex.view.TextViewRobotoBold
         android:textSize="@dimen/header_title"
         android:id="@+id/tvHeaderTitle"
-        android:textColor="@android:color/white"
-        android:text="Онлайн чат"
+        android:textColor="@color/grey"
+        android:text="Служба поддержки"
         android:layout_toEndOf="@+id/ivGoBack"
         android:gravity="center"
         android:layout_marginEnd="32dp"
