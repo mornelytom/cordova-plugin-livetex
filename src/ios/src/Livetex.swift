@@ -16,7 +16,8 @@ class UINavigationControllerLight: UINavigationController {
             if traitCollection.userInterfaceStyle == .light {
                 return .lightContent
             } else {
-                return .darkContent
+                return .lightContent
+                // return .darkContent  // temporary disable dark theme
             }
         } else {
             return .lightContent
@@ -67,11 +68,9 @@ class UINavigationControllerLight: UINavigationController {
 
     @objc(showChat)
     func showChat() {
-        if (!self.navController!.isBeingPresented) {
-            let chatViewModel: ChatViewModel = ChatViewModel.shared
-            self.viewController.present(self.navController!, animated: true)
-            chatViewModel.applicationWillEnterForeground()
-        }
+        let chatViewModel: ChatViewModel = ChatViewModel.shared
+        self.viewController.navigationController?.pushViewController(self.navController!, animated: true)
+        chatViewModel.applicationWillEnterForeground()
     }
 
     @objc(onPush)

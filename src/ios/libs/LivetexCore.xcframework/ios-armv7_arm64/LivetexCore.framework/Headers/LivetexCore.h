@@ -14,4 +14,4 @@ FOUNDATION_EXPORT double LivetexCoreVersionNumber;
 //! Project version string for LivetexCore.
 FOUNDATION_EXPORT const unsigned char LivetexCoreVersionString[];
 
-#define LivetexCoreVersion "1.0.0"
+#define LivetexCoreVersion "1.1.1"

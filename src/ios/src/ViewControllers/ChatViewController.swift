@@ -39,6 +39,9 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
     override func viewDidLoad() {
         configureCollectionView()
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {  // temporary disable dark theme
+            overrideUserInterfaceStyle = .light
+        }
 
         configureInputBar()
         configureViewModel()
@@ -245,7 +248,8 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         var scale: CGFloat = 0.5
         var image: UIImage = UIImage.scale(image: UIImage(asset: .back)!, by: scale)!
         backBtn.image = image
-        backBtn.tintColor = UIColor.Theme.white
+        // backBtn.tintColor = UIColor.Theme.white  // temporary disable dark theme
+        backBtn.tintColor = UIColor.white
         backBtn.action = #selector(closeChat)
         backBtn.target = self
         navigationItem.leftBarButtonItem = backBtn
@@ -263,6 +267,9 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
 
     private func sendAttachment() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        if #available(iOS 13.0, *) {  // temporary disable dark theme
+            alertController.overrideUserInterfaceStyle = .light
+        }
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         let cancel = UIAlertAction(title: "Отменить", style: .cancel)

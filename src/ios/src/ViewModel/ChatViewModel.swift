@@ -75,7 +75,6 @@ import LivetexCore
         }
 
         sessionService?.connect()
-        NSLog("Livetex connect")
     }
 
     func loadMoreMessagesIfNeeded() {

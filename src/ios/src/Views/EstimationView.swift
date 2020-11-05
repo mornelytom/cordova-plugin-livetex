@@ -17,7 +17,8 @@ class EstimationView: UIView {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 16)
-        label.textColor = UIColor.Theme.black
+        // label.textColor = UIColor.Theme.black  // temporary disable dark theme
+        label.textColor = UIColor.black
         label.text = "Оцените качество обслуживания"
         return label
     }()

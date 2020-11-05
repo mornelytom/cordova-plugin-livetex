@@ -15,6 +15,7 @@ public struct Creator : Swift.Codable {
     case visitor
     case employee
     case system
+    case bot
     public typealias RawValue = Swift.String
     public init?(rawValue: Swift.String)
     public var rawValue: Swift.String {
@@ -33,6 +34,7 @@ extension ClientEvent {
     case attributes
     case department
     case getHistory
+    case buttonPressed
     public typealias RawValue = Swift.String
     public init?(rawValue: Swift.String)
     public var rawValue: Swift.String {
@@ -67,7 +69,7 @@ public enum ResponseError : Swift.String, Swift.Codable {
   }
 }
 public struct ClientEvent : Swift.Encodable {
-  public let correlationID: Swift.String
+  public let correlationId: Swift.String
   public let content: LivetexCore.ClientEvent.Content
   public init(_ content: LivetexCore.ClientEvent.Content)
   public func encode(to encoder: Swift.Encoder) throws
@@ -359,6 +361,18 @@ public enum MessageItemType : Swift.String, Swift.Codable {
     get
   }
 }
+public struct Keyboard : Swift.Decodable {
+  public let buttons: [LivetexCore.Button]
+  public let pressed: Swift.Bool
+  public init(buttons: [LivetexCore.Button], pressed: Swift.Bool)
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct Button : Swift.Decodable {
+  public let url: Swift.String?
+  public let label: Swift.String
+  public let payload: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+}
 public struct Departments : Swift.Decodable {
   public let type: LivetexCore.ServiceEvent.EventType
   public let departments: [LivetexCore.Department]
@@ -379,6 +393,7 @@ extension ClientEvent {
     case department(Swift.String)
     case getHistory(Swift.String, Swift.Int)
     case attributes(LivetexCore.Attributes)
+    case buttonPressed(Swift.String)
     public func encode(to encoder: Swift.Encoder) throws
   }
 }
@@ -388,6 +403,7 @@ public struct Message : Swift.Decodable {
   public let content: LivetexCore.MessageContent
   public let creator: LivetexCore.Creator
   public let createdAt: Foundation.Date
+  public let keyboard: LivetexCore.Keyboard?
   public init(from decoder: Swift.Decoder) throws
 }
 public enum ServiceEvent : Swift.Decodable {
