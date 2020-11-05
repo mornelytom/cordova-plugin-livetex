@@ -301,11 +301,11 @@
             <pod name="MessageKit" />
             <pod name="Kingfisher" />
             <pod name="BFRImageViewer" />
-            <pod name="Firebase" spec="~> 6.31.1" />
-            <pod name="Firebase/Core" spec="~> 6.10.1" />
-            <pod name="Firebase/Analytics" spec="~> 6.8.0" />
-            <pod name="Firebase/Crashlytics" spec="~> 4.5.0" />
-            <pod name="Firebase/Messaging" spec="~> 4.6.2" />
+            <pod name="Firebase" spec="~> 6.34.0" />
+            <pod name="FirebaseCore" spec="~> 6.10.4" />
+            <pod name="FirebaseAnalytics" spec="~> 6.9.0" />
+            <pod name="FirebaseCrashlytics" spec="~> 4.6.2" />
+            <pod name="FirebaseMessaging" spec="~> 4.7.1" />
         </pods>
     </podspec>
 
