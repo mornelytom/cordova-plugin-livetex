@@ -14,10 +14,10 @@ class UINavigationControllerLight: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13.0, *) {
             if traitCollection.userInterfaceStyle == .light {
+                return .darkContent  // force dark even for light theme
                 return .lightContent
             } else {
-                return .lightContent
-                // return .darkContent  // temporary disable dark theme
+                return .darkContent
             }
         } else {
             return .lightContent
@@ -68,9 +68,11 @@ class UINavigationControllerLight: UINavigationController {
 
     @objc(showChat)
     func showChat() {
-        let chatViewModel: ChatViewModel = ChatViewModel.shared
-        self.viewController.navigationController?.pushViewController(self.navController!, animated: true)
-        chatViewModel.applicationWillEnterForeground()
+        if (!self.navController!.isBeingPresented) {
+            let chatViewModel: ChatViewModel = ChatViewModel.shared
+            self.viewController.present(self.navController!, animated: true)
+            chatViewModel.applicationWillEnterForeground()
+        }
     }
 
     @objc(onPush)

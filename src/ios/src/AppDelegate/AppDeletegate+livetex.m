@@ -148,7 +148,7 @@ BOOL livetexSwapped;
     if (livetexSwapped) {
         [self livetexApplication:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
     }
-    if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"]) {
+    if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"] || [userInfo[@"type"] isEqual: @"chat_message"]) {
         if(application.applicationState != UIApplicationStateActive) {
             livetexFromPush = TRUE;
         } else {
