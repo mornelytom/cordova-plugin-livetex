@@ -14,8 +14,7 @@ class UINavigationControllerLight: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13.0, *) {
             if traitCollection.userInterfaceStyle == .light {
-                return .darkContent  // force dark even for light theme
-                return .lightContent
+                return .darkContent
             } else {
                 return .darkContent
             }
@@ -38,8 +37,7 @@ class UINavigationControllerLight: UINavigationController {
         let storyboard = UIStoryboard(name: "Livetex", bundle: nil)
         chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
         self.navController = UINavigationControllerLight(rootViewController: self.chatViewController!)
-        self.navController?.navigationBar.isTranslucent = false
-        self.navController?.navigationBar.barTintColor = UIColor(hex: 0x6D3AF7, alpha: 1)
+        self.navController?.navigationBar.barTintColor = UIColor(hex: 0xFFFFFF, alpha: 1)
         self.navController?.modalPresentationStyle = .fullScreen
         NotificationCenter.default.addObserver(self, selector: #selector(self.chatExit(notification:)), name: Notification.Name("ChatClose"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.chatLoaded(notification:)), name: Notification.Name("ChatViewLoaded"), object: nil)
@@ -171,4 +169,3 @@ class UINavigationControllerLight: UINavigationController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name("ChatDrain"), object: nil)
     }
 }
-

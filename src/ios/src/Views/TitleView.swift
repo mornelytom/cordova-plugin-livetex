@@ -40,7 +40,7 @@ class TitleView: UIView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
         // label.textColor = UIColor.Theme.white  // temporary disable dark theme
-        label.textColor = UIColor.white
+        label.textColor = UIColor.black
         label.textAlignment = .center
         return label
     }()

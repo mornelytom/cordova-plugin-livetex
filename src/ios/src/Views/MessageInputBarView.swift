@@ -35,33 +35,31 @@ class MessageInputBarView: InputBarAccessoryView {
         inputTextView.backgroundColor = .white
         inputTextView.textColor = .black
         inputTextView.placeholder = "Введите сообщение"
-        topStackViewPadding = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        topStackViewPadding = UIEdgeInsets(top: 5, left: 40, bottom: 5, right: 40)
 
-        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 6)
-        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-        middleContentViewPadding.left = 6
-        middleContentViewPadding.right = 6
-        inputTextView.layer.borderWidth = 0.8
+        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 36, bottom: 8, right: 36)
+        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 40, bottom: 8, right: 40)
+        inputTextView.layer.borderWidth = 2
         inputTextView.layer.cornerRadius = 16
         inputTextView.layer.masksToBounds = true
         inputTextView.autocorrectionType = .yes
         inputTextView.layer.borderColor = UIColor.messageGray.cgColor
 
         let attachmentButton = InputBarButtonItem().configure {
-                $0.image = UIImage(asset: .attachment)?.withRenderingMode(.alwaysTemplate)
-                $0.tintColor = sendButton.tintColor
+                $0.image = UIImage(asset: .attachment)?.withRenderingMode(.alwaysOriginal)
                 $0.setSize(CGSize(width: 36, height: 36), animated: false)
             }.onTouchUpInside { [weak self] item in
                 self?.onAttachmentButtonTapped?()
             }
 
-        setLeftStackViewWidthConstant(to: 25, animated: false)
         setStackViewItems([attachmentButton], forStack: .left, animated: false)
 
-        setRightStackViewWidthConstant(to: 28, animated: false)
-        sendButton.image = UIImage(asset: .send)
+        sendButton.image = UIImage(asset: .send)?.withRenderingMode(.alwaysOriginal)
         sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
         sendButton.imageView?.layer.cornerRadius = 16
+        inputTextView.addSubview(sendButton)
+        inputTextView.addSubview(attachmentButton)
+        sendButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width*2-60).isActive = true
     }
 
 }

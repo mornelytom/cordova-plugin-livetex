@@ -148,11 +148,8 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         }
 
         viewModel.onDialogStateReceived = { [weak self] dialog in
-            if (dialog.employee != nil) {
-                self?.titleView.title = "Онлайн чат: " + dialog.employee!.name
-            } else {
-                self?.titleView.title = "Онлайн чат"
-            }
+            
+            self?.titleView.title = "Служба поддержки"
             self?.titleView.subtitle = dialog.employeeStatus?.rawValue
             self?.avatarView.setImage(with: URL(string: dialog.employee?.avatarUrl ?? ""))
 
@@ -245,11 +242,11 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarView)
         navigationItem.titleView = titleView
         let backBtn = UIBarButtonItem()
-        var scale: CGFloat = 0.5
+        var scale: CGFloat = 1
         var image: UIImage = UIImage.scale(image: UIImage(asset: .back)!, by: scale)!
         backBtn.image = image
         // backBtn.tintColor = UIColor.Theme.white  // temporary disable dark theme
-        backBtn.tintColor = UIColor.white
+        backBtn.tintColor = UIColor(hex: 0x6D3AF7, alpha: 1)
         backBtn.action = #selector(closeChat)
         backBtn.target = self
         navigationItem.leftBarButtonItem = backBtn
@@ -584,4 +581,3 @@ extension ChatViewController: UIDocumentPickerDelegate {
     }
 
 }
-
