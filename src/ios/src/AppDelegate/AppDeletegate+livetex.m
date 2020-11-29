@@ -143,41 +143,6 @@ BOOL livetexSwapped;
     [livetex hideChat:false];
 }
 
-- (void)livetexApplication:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    if (livetexSwapped) {
-        [self livetexApplication:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
-    }
-    if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"] || [userInfo[@"type"] isEqual: @"chat_message"]) {
-        if(application.applicationState != UIApplicationStateActive) {
-            livetexFromPush = TRUE;
-        } else {
-            // [self showChatDialog];  // do not open chat dialog while running
-            livetexFromPush = FALSE;
-            Livetex *livetex = [self getCommandInstance:@"Livetex"];
-            [livetex onPush];
-        }
-    } else {
-        livetexFromPush = FALSE;
-    }
-    completionHandler(UIBackgroundFetchResultNoData);
-}
-
-- (void)livetexSetupPushHandlers
-{
-    // this = self;
-    if ([[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)]) {
-        Method original, swizzled;
-        original = class_getInstanceMethod([self class], @selector(livetexApplication:didReceiveRemoteNotification:fetchCompletionHandler:));
-        swizzled = class_getInstanceMethod([[[UIApplication sharedApplication] delegate] class], @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:));
-        method_exchangeImplementations(original, swizzled);
-        livetexSwapped = TRUE;
-    } else {
-        class_addMethod([[[UIApplication sharedApplication] delegate] class], @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:), class_getMethodImplementation([self class], @selector(livetexApplication:didReceiveRemoteNotification:fetchCompletionHandler:)), nil);
-        livetexSwapped = FALSE;
-    }
-}
-
 - (void)initLivetexPushNotifications {
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([FIRApp defaultApp] == nil) {
@@ -198,7 +163,7 @@ BOOL livetexSwapped;
         [[NSNotificationCenter defaultCenter]
          addObserver:self selector:@selector(livetexDidDeleteMessagesOnServer)
          name:FIRMessagingMessagesDeletedNotification object:nil];
-        [self livetexSetupPushHandlers];
+        [self livetexSetupNewPushHandlers];
     });
     if (![self livetexPermissionState]) {
         if ([UNUserNotificationCenter class] != nil) {
@@ -242,6 +207,60 @@ BOOL livetexSwapped;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidFinishLaunchingNotification object:nil];
+}
+
+#pragma mark - REMOTE NOTIFICATION DELEGATE
+
+- (void)livetexSetupNewPushHandlers
+{
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+
+    // this = self;
+    if ([[center delegate] respondsToSelector:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)]) {
+        NSLog(@"livetex swapping listener");
+        Method original, swizzled;
+        original = class_getInstanceMethod([self class], @selector(livetexUserNotificationCenter:willPresentNotification:withCompletionHandler:));
+        swizzled = class_getInstanceMethod([[center delegate] class], @selector(userNotificationCenter:willPresentNotification:withCompletionHandler:));
+        method_exchangeImplementations(original, swizzled);
+        original = class_getInstanceMethod([self class], @selector(livetexUserNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:));
+        swizzled = class_getInstanceMethod([[center delegate] class], @selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:));
+        method_exchangeImplementations(original, swizzled);
+        livetexSwapped = TRUE;
+    } else {
+        NSLog(@"livetex adding listener");
+        class_addMethod([[center delegate] class], @selector(userNotificationCenter:willPresentNotification:withCompletionHandler:), class_getMethodImplementation([self class], @selector(livetexUserNotificationCenter:willPresentNotification:withCompletionHandler:)), nil);
+        class_addMethod([[center delegate] class], @selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:), class_getMethodImplementation([self class], @selector(livetexUserNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)), nil);
+        livetexSwapped = FALSE;
+    }
+}
+
+-(void)livetexUserNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
+    //Called when a notification is delivered to a foreground app.
+    NSDictionary *userInfo = notification.request.content.userInfo;
+    NSLog(@"livetex Userinfo willPresentNotification: %@", userInfo);
+    if (livetexSwapped) {  // call swizzled method
+        [self livetexUserNotificationCenter:center willPresentNotification:notification withCompletionHandler:completionHandler];
+    }
+    if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"] || [userInfo[@"type"] isEqual: @"chat_message"]) {
+        NSLog(@"got chat message");
+        livetexFromPush = FALSE;
+        Livetex *livetex = [self getCommandInstance:@"Livetex"];
+        [livetex onPush];
+    }
+    completionHandler(UNNotificationPresentationOptionNone);
+}
+
+-(void)livetexUserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
+    NSDictionary *userInfo = response.notification.request.content.userInfo;
+    NSLog(@"livetex Userinfo didReceiveNotificationResponse: %@", userInfo);
+    NSLog(@"livetex response.actionIdentifier: %@", response.actionIdentifier);
+    if (livetexSwapped) {  // call swizzled method
+        [self livetexUserNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+    }
+    if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"] || [userInfo[@"type"] isEqual: @"chat_message"]) {
+        livetexFromPush = TRUE;
+    }
+    completionHandler();
 }
 
 @end
