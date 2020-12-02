@@ -6,7 +6,7 @@
 //
 //
 
-#import "AppDelegate+linphone.h"
+#import "AppDelegate+livetex.h"
 #import "ProductModuleName-Swift.h"
 #import <objc/runtime.h>
 
@@ -18,7 +18,9 @@
 
 ChatViewModel *chatViewModel;
 BOOL livetexFromPush;
-BOOL livetexSwapped;
+unsigned char livetexSwapped;
+const unsigned char livetexSwapped_userNotificationCenter_willPresentNotification = 1;
+const unsigned char livetexSwapped_userNotificationCenter_didReceiveNotificationResponse = 2;
 
 - (id) getCommandInstance:(NSString*)className
 {
@@ -215,30 +217,35 @@ BOOL livetexSwapped;
 {
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
 
-    // this = self;
+    livetexSwapped = 0;
     if ([[center delegate] respondsToSelector:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)]) {
-        NSLog(@"livetex swapping listener");
+        NSLog(@"livetex swapping userNotificationCenter:willPresentNotification listener");
         Method original, swizzled;
         original = class_getInstanceMethod([self class], @selector(livetexUserNotificationCenter:willPresentNotification:withCompletionHandler:));
         swizzled = class_getInstanceMethod([[center delegate] class], @selector(userNotificationCenter:willPresentNotification:withCompletionHandler:));
         method_exchangeImplementations(original, swizzled);
+        livetexSwapped += livetexSwapped_userNotificationCenter_willPresentNotification;
+    } else {
+        NSLog(@"livetex adding userNotificationCenter:willPresentNotification listener");
+        class_addMethod([[center delegate] class], @selector(userNotificationCenter:willPresentNotification:withCompletionHandler:), class_getMethodImplementation([self class], @selector(livetexUserNotificationCenter:willPresentNotification:withCompletionHandler:)), nil);
+    }
+    if ([[center delegate] respondsToSelector:@selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)]) {
+        NSLog(@"livetex swapping userNotificationCenter:didReceiveNotificationResponse listener");
+        Method original, swizzled;
         original = class_getInstanceMethod([self class], @selector(livetexUserNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:));
         swizzled = class_getInstanceMethod([[center delegate] class], @selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:));
         method_exchangeImplementations(original, swizzled);
-        livetexSwapped = TRUE;
+        livetexSwapped += livetexSwapped_userNotificationCenter_didReceiveNotificationResponse;
     } else {
-        NSLog(@"livetex adding listener");
-        class_addMethod([[center delegate] class], @selector(userNotificationCenter:willPresentNotification:withCompletionHandler:), class_getMethodImplementation([self class], @selector(livetexUserNotificationCenter:willPresentNotification:withCompletionHandler:)), nil);
+        NSLog(@"livetex adding userNotificationCenter:didReceiveNotificationResponse listener");
         class_addMethod([[center delegate] class], @selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:), class_getMethodImplementation([self class], @selector(livetexUserNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)), nil);
-        livetexSwapped = FALSE;
     }
 }
 
 -(void)livetexUserNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
     //Called when a notification is delivered to a foreground app.
     NSDictionary *userInfo = notification.request.content.userInfo;
-    NSLog(@"livetex Userinfo willPresentNotification: %@", userInfo);
-    if (livetexSwapped) {  // call swizzled method
+    if (livetexSwapped && livetexSwapped_userNotificationCenter_willPresentNotification) {  // call swizzled method
         [self livetexUserNotificationCenter:center willPresentNotification:notification withCompletionHandler:completionHandler];
     }
     if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"] || [userInfo[@"type"] isEqual: @"chat_message"]) {
@@ -252,9 +259,7 @@ BOOL livetexSwapped;
 
 -(void)livetexUserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
     NSDictionary *userInfo = response.notification.request.content.userInfo;
-    NSLog(@"livetex Userinfo didReceiveNotificationResponse: %@", userInfo);
-    NSLog(@"livetex response.actionIdentifier: %@", response.actionIdentifier);
-    if (livetexSwapped) {  // call swizzled method
+    if (livetexSwapped && livetexSwapped_userNotificationCenter_didReceiveNotificationResponse) {  // call swizzled method
         [self livetexUserNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
     }
     if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"] || [userInfo[@"type"] isEqual: @"chat_message"]) {
