@@ -245,7 +245,7 @@ const unsigned char livetexSwapped_userNotificationCenter_didReceiveNotification
 -(void)livetexUserNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
     //Called when a notification is delivered to a foreground app.
     NSDictionary *userInfo = notification.request.content.userInfo;
-    if (livetexSwapped && livetexSwapped_userNotificationCenter_willPresentNotification) {  // call swizzled method
+    if (livetexSwapped & livetexSwapped_userNotificationCenter_willPresentNotification) {  // call swizzled method
         [self livetexUserNotificationCenter:center willPresentNotification:notification withCompletionHandler:completionHandler];
     }
     if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"] || [userInfo[@"type"] isEqual: @"chat_message"]) {
@@ -259,7 +259,7 @@ const unsigned char livetexSwapped_userNotificationCenter_didReceiveNotification
 
 -(void)livetexUserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
     NSDictionary *userInfo = response.notification.request.content.userInfo;
-    if (livetexSwapped && livetexSwapped_userNotificationCenter_didReceiveNotificationResponse) {  // call swizzled method
+    if (livetexSwapped & livetexSwapped_userNotificationCenter_didReceiveNotificationResponse) {  // call swizzled method
         [self livetexUserNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
     }
     if ([userInfo[@"aps"][@"category"] isEqual: @"chat_message"] || [userInfo[@"type"] isEqual: @"chat_message"]) {
