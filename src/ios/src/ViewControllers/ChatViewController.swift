@@ -242,7 +242,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarView)
         navigationItem.titleView = titleView
         let backBtn = UIBarButtonItem()
-        var scale: CGFloat = 1
+        var scale: CGFloat = 0.5
         var image: UIImage = UIImage.scale(image: UIImage(asset: .back)!, by: scale)!
         backBtn.image = image
         // backBtn.tintColor = UIColor.Theme.white  // temporary disable dark theme
