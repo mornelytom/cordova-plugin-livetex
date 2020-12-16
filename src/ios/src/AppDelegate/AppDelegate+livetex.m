@@ -177,7 +177,7 @@ const unsigned char livetexSwapped_userNotificationCenter_didReceiveNotification
               requestAuthorizationWithOptions:authOptions
               completionHandler:^(BOOL granted, NSError * _Nullable error) {
                 // ...
-                if (granted && !error) {
+                if (error == nil) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                            [[UIApplication sharedApplication] registerForRemoteNotifications];
                        });
