@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Created by sergey.so on 02.12.2014.
@@ -23,97 +24,142 @@ public class DataKeeper {
     private static final String UNREAD_MESSAGES_COUNT = "livetex.hh.unreadMessagesCount";
 
     public static void setClientName(Context context, String name) {
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        pref.edit().putString(NAME, name).commit();
+        try {
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            pref.edit().putString(NAME, name).commit();
+        } catch (NullPointerException e) { }
     }
 
     public static String getClientName(Context context) {
-        String name =  context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).getString(NAME, "");
-        return name;
+        try {
+            return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).getString(NAME, "");
+        } catch (NullPointerException e) { }
+
+        return "";
     }
 
     public static String getLastMessage(Context context) {
-        return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).getString(LAST_MESSAGE, "");
+        try {
+            return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).getString(LAST_MESSAGE, "");
+        } catch (NullPointerException e) { }
+
+        return "";
     }
 
     public static void setHHUserData(Context context, Set<String> userData) {
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        pref.edit().putStringSet(HH_USER, userData).apply();
+        try {
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            pref.edit().putStringSet(HH_USER, userData).apply();
+        } catch (NullPointerException e) { }
     }
 
     public static Set<String> getUserData(Context context) {
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        return pref.getStringSet(HH_USER, new HashSet<String>());
+        try {
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            return pref.getStringSet(HH_USER, new HashSet<String>());
+        } catch (NullPointerException e) { }
+
+        return null;
     }
 
     public static void saveLastMessage(Context context, String lastMessage) {
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        pref.edit().putString(LAST_MESSAGE, lastMessage).apply();
+        try {
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            pref.edit().putString(LAST_MESSAGE, lastMessage).apply();
+        } catch (NullPointerException e) { }
     }
 
-    public static void saveAppId(Context context, String appId){
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        pref.edit()
-                .putString(APP_ID_KEY, appId)
-                .apply();
+    public static void saveAppId(Context context, String appId) {
+        try {
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            pref.edit()
+                    .putString(APP_ID_KEY, appId)
+                    .apply();
+        } catch (NullPointerException e) { }
     }
 
-    public static String restoreAppId(Context context){
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-     //   LogUtil.log("restoreToken " + pref.getString(APP_ID_KEY, ""));
-        return pref.getString(APP_ID_KEY, "");
+    public static String restoreAppId(Context context) {
+        try {
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+         //   LogUtil.log("restoreToken " + pref.getString(APP_ID_KEY, ""));
+            return pref.getString(APP_ID_KEY, "");
+        } catch (NullPointerException e) { }
+
+        return "";
     }
 
-    public static void saveEmployee(Context context, String employeId){
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        pref.edit()
-                .putString(EMPLOYEE_ID_KEY, employeId)
-                .apply();
+    public static void saveEmployee(Context context, String employeId) {
+        try {
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            pref.edit()
+                    .putString(EMPLOYEE_ID_KEY, employeId)
+                    .apply();
+        } catch (NullPointerException e) { }
     }
 
-    public static String restoreEmployee(Context context){
-        SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        return pref.getString(EMPLOYEE_ID_KEY, "");
+    public static String restoreEmployee(Context context) {
+        try {
+            SharedPreferences pref = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            return pref.getString(EMPLOYEE_ID_KEY, "");
+        } catch (NullPointerException e) { }
+
+        return "";
     }
 
-    public static void dropEmployeeId(Context context){
-        context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-                .edit()
-                .remove(EMPLOYEE_ID_KEY)
-                .commit();
+    public static void dropEmployeeId(Context context) {
+        try {
+            context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+                    .edit()
+                    .remove(EMPLOYEE_ID_KEY)
+                    .commit();
+        } catch (NullPointerException e) { }
     }
 
     public static void dropAll(Context context) {
-        String clientName = getClientName(context);
-        context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-                .edit()
-                .clear()
-                .commit();
-        setClientName(context, clientName);
+        try {
+            String clientName = getClientName(context);
+            context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+                    .edit()
+                    .clear()
+                    .commit();
+            setClientName(context, clientName);
+        } catch (NullPointerException e) { }
     }
 
     public static void saveRegId(Context context, String regId) {
-        context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-                .edit().putString(REG_ID, regId).commit();
+        try {
+            context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+                    .edit().putString(REG_ID, regId).commit();
+        } catch (NullPointerException e) { }
     }
 
     public static String restoreRegId(Context context) {
-        return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).getString(REG_ID, "");
+        try {
+            return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).getString(REG_ID, "");
+        } catch (NullPointerException e) { }
+
+        return "";
     }
 
     public synchronized static void incUnreadMessages(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        int unreadMessagesCount = prefs.getInt(UNREAD_MESSAGES_COUNT, 0);
-        prefs.edit().putInt(UNREAD_MESSAGES_COUNT, unreadMessagesCount+1).commit();
+        try {
+            SharedPreferences prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            int unreadMessagesCount = prefs.getInt(UNREAD_MESSAGES_COUNT, 0);
+            prefs.edit().putInt(UNREAD_MESSAGES_COUNT, unreadMessagesCount+1).commit();
+        } catch (NullPointerException e) { }
     }
 
     public synchronized static int getUnreadMessagesCount(Context context) {
-        return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).getInt(UNREAD_MESSAGES_COUNT, 0);
+        try {
+            return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).getInt(UNREAD_MESSAGES_COUNT, 0);
+        } catch (NullPointerException e) { }
+
+        return 0;
     }
 
     public static void resetUnreadMessagesCount(Context context) {
-        context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit().putInt(UNREAD_MESSAGES_COUNT, 0).commit();
+        try {
+            context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit().putInt(UNREAD_MESSAGES_COUNT, 0).commit();
+        } catch (NullPointerException e) { }
     }
-
-
 }
