@@ -299,7 +299,7 @@
         </config>
         <pods use-frameworks="true">
             <pod name="MessageKit" />
-            <pod name="Kingfisher" />
+            <pod name="Kingfisher" spec="~> 5.15.8" />
             <pod name="BFRImageViewer" />
             <pod name="Firebase" spec="~> 6.34.0" />
             <pod name="FirebaseCore" spec="~> 6.10.4" />
