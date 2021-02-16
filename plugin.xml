@@ -195,10 +195,105 @@
     <resource-file src="src/android/res/layout/spinner_view.xml" target="res/layout/livetex_spinner_view.xml" />
     <resource-file src="src/android/res/menu/menu_main.xml" target="res/menu/livetex_menu_main.xml" />
     <resource-file src="src/android/res/menu/menu_offline_list.xml" target="res/menu/livetex_menu_offline_list.xml" />
-    <resource-file src="src/android/res/values/colors.xml" target="res/values/colors.xml" />
-    <resource-file src="src/android/res/values/dimens.xml" target="res/values/dimens.xml" />
-    <!-- <resource-file src="src/android/res/values/strings.xml" target="res/values/livetex_strings.xml" /> -->
-    <resource-file src="src/android/res/values/styles.xml" target="res/values/styles.xml" />
+
+    <config-file target="res/values/colors.xml" parent="/*">
+	    <color name="light_silver">#F5F2F2</color>
+		<color name="material_blue_900">#0D47A1</color>
+		<color name="material_blue_800">#1565C0</color>
+		<color name="btn_color">#3399d9</color>
+		<color name="link_registartion">#03A3F8</color>
+		<color name="material_red_500">#F44336</color>
+		<color name="material_green_500">#4CAF50</color>
+		<color name="material_blue_50">#E3F2FD</color>
+		<color name="material_blue_500">#CCE5FF</color>
+		<color name="material_grey_500">#9E9E9E</color>
+		<color name="material_grey_50">#FAFAFA</color>
+		<color name="material_blue_grey_100">#CFD8DC</color>
+		<color name="white">#ffffff</color>
+		<color name="grey">#2D384A</color>
+		<color name="main">#F0F2F5</color>
+
+		<color name="new_ultra_light_gray">#EFF1F4</color>
+		<color name="new_light_gray">#2D384A</color>
+		<color name="new_light_gray_border">#D4D8E2</color>
+		<color name="time_gray">#2D384A</color>
+		<color name="new_gray">#E4E4E4</color>
+		<color name="new_blue">#E1F0FF</color>
+		<color name="chat_white">#5530EA</color>
+		<color name="chat_text">#2D384A</color>
+		<color name="new_green">#20C88C</color>
+		<color name="new_red">#D66464</color>
+	</config-file>
+
+    <config-file target="res/values/dimens.xml" parent="/*">
+	    <dimen name="activity_horizontal_margin">16dp</dimen>
+		<dimen name="activity_vertical_margin">16dp</dimen>
+
+		<dimen name="thirteen">13dp</dimen>
+		<dimen name="margin">10dp</dimen>
+		<dimen name="ava_size">48dp</dimen>
+		<dimen name="et_text_size">18sp</dimen>
+
+		<dimen name="tv_title_size_medium">16sp</dimen>
+		<dimen name="tv_title_size_small">13sp</dimen>
+		<dimen name="btn_text_size">14sp</dimen>
+		<dimen name="header_title">16sp</dimen>
+
+		<dimen name="ec_header_title">18sp</dimen>
+		<dimen name="ec_basetext">16sp</dimen>
+		<dimen name="ec_subtext">14sp</dimen>
+	</config-file>
+
+    <config-file target="res/values/styles.xml" parent="/*">
+		<style name="CustomTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+			<item name="android:actionBarStyle">@style/LTActionBar</item>
+			<item name="actionBarStyle">@style/LTActionBar</item>
+
+		</style>
+
+		<style name="LTActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+			<item name="android:background">@color/new_blue</item>
+			<item name="background">@color/new_blue</item>
+		</style>
+
+		<style name="TextViewActionBar" parent="android:style/Widget.TextView">
+			<item name="android:textColor">@color/white</item>
+		</style>
+
+		<style name="EditTextBordered" parent="android:style/Widget.EditText">
+			<item name="android:background">@drawable/livetex_border</item>
+			<item name="android:padding">5dp</item>
+			<item name="android:layout_margin">9dp</item>
+		</style>
+
+		<style name="EditTextBorderedBig" parent="EditTextBordered">
+			<item name="android:gravity">top</item>
+			<item name="android:lines">5</item>
+		</style>
+
+		<style name="CustomSpinner" parent="@style/Base.Widget.AppCompat.Spinner.Underlined">
+			<item name="android:paddingLeft">0dp</item>
+			<item name="android:paddingRight">0dp</item>
+		</style>
+
+		<style name="btn_blue">
+			<item name="android:layout_width">wrap_content</item>
+			<item name="android:layout_height">wrap_content</item>
+			<item name="android:layout_gravity">right</item>
+			<item name="android:background">@drawable/livetex_blue_btn</item>
+			<item name="android:paddingLeft">8dp</item>
+			<item name="android:paddingRight">8dp</item>
+			<item name="android:textSize">@dimen/btn_text_size</item>
+			<item name="android:textAllCaps">true</item>
+			<item name="android:textColor">@android:color/white</item>
+			<item name="android:text">Отправить</item>
+		</style>
+
+		<style name="tv_title_init">
+			<item name="android:textColor">@color/new_gray</item>
+
+		</style>
+	</config-file>
     
     <config-file target="res/values/strings.xml" parent="/*">
         <string name="action_settings">Settings</string>
@@ -299,7 +394,7 @@
         </config>
         <pods use-frameworks="true">
             <pod name="MessageKit" />
-            <pod name="Kingfisher" spec="~> 5.15.8" />
+            <pod name="Kingfisher" />
             <pod name="BFRImageViewer" />
             <pod name="Firebase" spec="~> 6.34.0" />
             <pod name="FirebaseCore" spec="~> 6.10.4" />
