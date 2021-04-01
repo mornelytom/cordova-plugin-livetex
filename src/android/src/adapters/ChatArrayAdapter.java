@@ -141,12 +141,14 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
                     MimeTypeMap map = MimeTypeMap.getSingleton();
                     String[] parts = filePath.split("\\.");
                     String ext = "";
-                    if(parts != null && parts.length > 0) {
+                    if (parts != null && parts.length > 0) {
                         ext = parts[parts.length-1];
                     }
+
                     String type = map.getMimeTypeFromExtension(ext);
-                    if(type != null) {
-                        if(URLUtil.isValidUrl(filePath)) {
+
+                    if (type != null) {
+                        if (URLUtil.isValidUrl(filePath)) {
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(filePath));
                             getContext().startActivity(browserIntent);
                             return;
@@ -154,10 +156,12 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
                             type = "*/*";
                         }
                     }
+/*
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     Uri data = Uri.fromFile(file);
                     intent.setDataAndType(data, type);
                     getContext().startActivity(intent);
+ */
                 }
             });
         } else if(offlineMessagePersistent.getText() != null && offlineMessagePersistent.getText().contains("/") && state == BubbleState.VISITOR) {
@@ -183,12 +187,12 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
                     MimeTypeMap map = MimeTypeMap.getSingleton();
                     String[] parts = filePath.split("\\.");
                     String ext = "";
-                    if(parts != null && parts.length > 0) {
+                    if (parts != null && parts.length > 0) {
                         ext = parts[parts.length-1];
                     }
                     String type = map.getMimeTypeFromExtension(ext);
-                    if(type != null) {
-                        if(URLUtil.isValidUrl(filePath)) {
+                    if (type != null) {
+                        if (URLUtil.isValidUrl(filePath)) {
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(filePath));
                             getContext().startActivity(browserIntent);
                             return;
@@ -197,10 +201,12 @@ public class ChatArrayAdapter extends ArrayAdapter<MessageModel> {
                         }
                     }
                     Log.d("tag", "click");
+/*
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     Uri data = Uri.fromFile(file);
                     intent.setDataAndType(data, type);
                     getContext().startActivity(intent);
+ */
                 }
             });
         } else {
